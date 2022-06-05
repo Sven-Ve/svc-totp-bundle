@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% trans %}Manage 2FA{% endtrans %}{% endblock %}
+
+{% block body %}
+
+<div class='form-md'>
+  <div class="login-form bg-light mt-4 p-4">
+    {% if app.user.isTotpAuthenticationEnabled %}
+      <div class="alert alert-success" role="alert">{% trans %}2FA is enabled.{% endtrans %}</div>
+    {% else %}
+      <div class="alert alert-warning" role="alert">
+        <h4 class="alert-heading">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          {% trans %}2FA is disabled{% endtrans %}.
+        </div>
+      </div>
+    {% endif %}
+
+    <strong>{% trans %}Use your Authenticator to Scan the QR Code{% endtrans %}</strong>
+
+    <div class="row">
+      <div class="col-auto">
+        <figure class="figure">
+          <img src="{{ path('svc_totp_qrcode') }}" alt="2FA QR Code">
+        </figure>
+      </div>
+      <div class="col">
+        ({% trans %}examples{% endtrans %}: Authy, Google Authenticator, Microsoft Authenticator, 1Password, ...)
+      </div>
+    </div>
+
+    <br/><br/>
+    {% if app.user.isTotpAuthenticationEnabled %}
+      <a class="btn btn-primary btn-block" href="{{ path('svc_totp_disable') }}">
+        {% trans %}Disable 2FA{% endtrans %}
+      </a>
+
+      <a class="btn btn-secondary btn-block" href="{{ path('svc_totp_cleartd', {'allUsers' : false} ) }}">
+        {% trans %}Clear trusted devices{% endtrans %}
+      </a>
+
+    {% else %}
+      <h3>{% trans %}If done, click on this button{% endtrans %}</h3>
+      <a class="btn btn-primary btn-block" href="{{ path('svc_totp_enable') }}">{% trans %}Enable 2FA{% endtrans %}</a>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}
+

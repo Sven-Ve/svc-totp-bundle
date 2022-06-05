@@ -11,6 +11,9 @@
     ],
     "require": {
         "php": "^8.0.2",
+        "doctrine/doctrine-bundle": "^2.6",
+        "doctrine/orm": "^2.11",
+        "endroid/qr-code-bundle": "^4.0",
         "scheb/2fa-backup-code": "^6.0",
         "scheb/2fa-bundle": "^6.0",
         "scheb/2fa-totp": "^6.0",
@@ -36,5 +39,10 @@
     "scripts": {
         "test": "vendor/bin/simple-phpunit",
         "phpstan": "vendor/bin/phpstan analyse src/ --level 5 -c .phpstan.neon"
+    },
+    "config": {
+        "allow-plugins": {
+            "endroid/installer": true
+        }
     }
 }

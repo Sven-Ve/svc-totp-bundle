@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% trans %}Backup codes{% endtrans %}{% endblock %}
+
+{% block body %}
+
+<div class='form-md'>
+  <div class="login-form bg-light mt-4 p-4">
+    <div class="alert alert-success" role="alert">
+      {% trans %}2FA is enabled.{% endtrans %}
+    </div>
+
+    <h1 class="h3 mb-3 font-weight-normal">{% trans %}Backup codes{% endtrans %}</h1>
+
+    <div class="row">
+      <div class="col-auto">
+        <ol>
+          {% for backupcode in backupcodes %}
+            <li>{{ backupcode }}</li>
+          {% endfor %}
+        </ol>
+      </div>
+      <div class="col">
+        {% trans %}Please copy these backup codes to a safe place{% endtrans %}.<br />
+        {% trans %}If your authenticator is not available, you can use one of these codes (each code only once){% endtrans %}
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+

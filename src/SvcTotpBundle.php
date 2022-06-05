@@ -1,6 +1,6 @@
 <?php
 
-namespace Svc\SvcTotpBundle;
+namespace Svc\TotpBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing
+        http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="svc_totp_manage" controller="svc_totp.controller::manageTotp" path="/manage/" >
+        <!-- settings -->
+    </route>
+
+    <route id="svc_totp_qrcode" controller="svc_totp.controller::totpQRCode" path="/qrcode/" >
+        <!-- settings -->
+    </route>
+
+    <route id="svc_totp_enable" controller="svc_totp.controller::enableTotp" path="/enable/" >
+        <!-- settings -->
+    </route>
+
+    <route id="svc_totp_disable" controller="svc_totp.controller::disableTotp" path="/disable/" >
+        <!-- settings -->
+    </route>
+
+    <route id="svc_totp_cleartd" controller="svc_totp.controller::clearTrustedDevice" path="/cleartd/" >
+        <!-- settings -->
+    </route>
+
+</routes>
