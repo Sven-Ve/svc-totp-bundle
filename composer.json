@@ -1,0 +1,40 @@
+{
+    "name": "svc/totp-bundle",
+    "description": "UI for totp",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sven Vetter",
+            "email": "git.09o@svenvetter.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0.2",
+        "scheb/2fa-backup-code": "^6.0",
+        "scheb/2fa-bundle": "^6.0",
+        "scheb/2fa-totp": "^6.0",
+        "scheb/2fa-trusted-device": "^6.0",
+        "symfony/framework-bundle": "5.4.*|^6",
+        "symfony/twig-bundle": "5.4.*|^6",
+        "symfony/translation": "5.4.*|^6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Svc\\TotpBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Svc\\TotpBundle\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "symfony/phpunit-bridge": "5.4.*|^6",
+        "phpstan/phpstan": "^1"
+    },
+    "scripts": {
+        "test": "vendor/bin/simple-phpunit",
+        "phpstan": "vendor/bin/phpstan analyse src/ --level 5 -c .phpstan.neon"
+    }
+}
