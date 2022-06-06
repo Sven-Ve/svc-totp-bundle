@@ -49,3 +49,14 @@ scheb_two_factor:
           check_path: 2fa_login_check
           enable_csrf: true
 ```
+
+```yaml
+#route
+2fa_login:
+    path: /2fa/{_locale}
+    defaults:
+        _controller: "scheb_two_factor.form_controller::form"
+
+2fa_login_check:
+    path: /2fa_check
+```

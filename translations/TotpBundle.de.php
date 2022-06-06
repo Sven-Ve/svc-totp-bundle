@@ -16,5 +16,5 @@ return array (
   'Please copy these backup codes to a safe place' => 'Bitte kopiere diese Backup Codes an eine sichere Stelle',
   'If your authenticator is not available, you can use one of these codes (each code only once)' => 'Sollte dein Authenticator nicht verfügbar sein, kannst du einen dieser Codes benutzen (jeden Code nur einmal)',
   'Backup codes' => 'Backup-Codes',
-  '' => '',
+  'Cancel' => 'Abbrechen',
 );

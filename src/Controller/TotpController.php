@@ -8,7 +8,6 @@ use Endroid\QrCode\Builder\Builder;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TotpController extends AbstractController
@@ -55,6 +54,7 @@ class TotpController extends AbstractController
     }
 
     $result = Builder::create()
+      /* @phpstan-ignore-next-line */
       ->data($totpAuthenticator->getQRContent($user))
       ->size(200)
       ->margin(0)
@@ -100,6 +100,7 @@ class TotpController extends AbstractController
   /**
    * clear trusted device for current or all users.
    */
+  /* @phpstan-ignore-next-line */
   public function clearTrustedDevice(UserRepository $userRep, bool $allUsers = false): Response
   {
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -113,6 +114,8 @@ class TotpController extends AbstractController
       return $this->redirectToRoute('svc_totp_manage');
     } else {
       $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+      /* @phpstan-ignore-next-line */
       foreach ($userRep->findAll() as $user) {
         $user->clearTrustedToken();
       }
@@ -143,6 +146,8 @@ class TotpController extends AbstractController
           $bCodes[] = $bCode;
         }
       }
+
+      $this->entityManager->flush();
 
       return $bCodes;
     } else {
