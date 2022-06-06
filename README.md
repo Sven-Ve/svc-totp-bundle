@@ -7,8 +7,31 @@
 [![PHP Version Require](http://poser.pugx.org/svc/totp-bundle/require/php)](https://packagist.org/packages/svc/totp-bundle)
 
 
-UI for totp
+# Userinterface for the excellent SchebTwoFactorBundle
+
+SchebTwoFactorBundle provides the functions to implement simple 2FA. However, you have to create the user interface yourself.
+
+This small bundle provides a ready to use implementation.
+
+The following functions are enabled:
+* TOTP 
+* Backup codes
+* Trusted devices
+
 
 * [Installation](docs/installation.md)
 * [Usage](docs/usage.md)
 
+## Screenshots
+
+### Enable 2FA
+
+![Enable 2FA](/docs/images/2fa-enabled.png)
+
+### Disable 2FA
+
+![Disable 2FA](/docs/images/2fa-disabled.png)
+
+### Backup codes
+
+![Backup codes](/docs/images/backup-codes.png)

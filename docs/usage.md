@@ -1,28 +1,48 @@
 # Usage
 
-## Define your settings 
-```yaml
-# /config/packages/svc_totp.yaml
-# Default configuration for "SvcTotpBundle"
-svc_totp:
 
+## Routes
 
-```
-
-
-```php
-...
-use Scheb\TwoFactorBundle\Model\BackupCodeInterface;
-use Scheb\TwoFactorBundle\Model\Totp\TwoFactorInterface;
-use Scheb\TwoFactorBundle\Model\TrustedDeviceInterface;
-...
-
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-#[ORM\Entity(repositoryClass: UserRepository::class)]
-class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFactorInterface, TrustedDeviceInterface, BackupCodeInterface
-```
+add a new file config/routes/svc_totp.yaml
 
 ```yaml
+#config/routes/svc_totp.yaml
+_svc_totp:
+    resource: '@SvcTotpBundle/src/Resources/config/routes.xml'
+    prefix: /mfa/{_locale}
+```
+
+adapt the routing information in config/routes/scheb_2fa.yaml (only if you like language support)
+
+```yaml
+#config/routes/scheb_2fa.yaml
+2fa_login:
+    path: /2fa/{_locale}
+    defaults:
+        _controller: "scheb_two_factor.form_controller::form"
+
+2fa_login_check:
+    path: /2fa_check
+```
+
+## Security configuration
+
+Enable TOTP (2FA) in config/packages/security.yaml under your main firewall(s)
+```yaml
+# config/packages/security.yaml
+  main:
+      ...
+      two_factor:
+          auth_form_path: 2fa_login
+          check_path: 2fa_login_check
+          enable_csrf: true
+```
+
+## TOTP configuration
+
+Enable TOTP, trusted devices and backup_codes in config/packages/scheb_2fa.yaml
+```yaml
+# config/packages/scheb_2fa.yaml
 # See the configuration reference at https://symfony.com/bundles/SchebTwoFactorBundle/6.x/configuration.html
 scheb_two_factor:
     security_tokens:
@@ -40,23 +60,36 @@ scheb_two_factor:
 
     backup_codes:
         enabled: true
+```       
+
+## Configuration User entity
+
+Implement this interfaces
+* Scheb\TwoFactorBundle\Model\BackupCodeInterface;
+* Scheb\TwoFactorBundle\Model\Totp\TwoFactorInterface;
+* Scheb\TwoFactorBundle\Model\TrustedDeviceInterface;
+
+```php
+...
+use Scheb\TwoFactorBundle\Model\BackupCodeInterface;
+use Scheb\TwoFactorBundle\Model\Totp\TwoFactorInterface;
+use Scheb\TwoFactorBundle\Model\TrustedDeviceInterface;
+...
+class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFactorInterface, TrustedDeviceInterface, BackupCodeInterface
+{
+  ...
 ```
 
-```yaml
-# security.yaml
-      two_factor:
-          auth_form_path: 2fa_login
-          check_path: 2fa_login_check
-          enable_csrf: true
-```
+Load Svc\TotpBundle\Service\_TotpTrait; with TOTP field definitions and gether/setter functions
 
-```yaml
-#route
-2fa_login:
-    path: /2fa/{_locale}
-    defaults:
-        _controller: "scheb_two_factor.form_controller::form"
+```php
+...
+use Svc\TotpBundle\Service\_TotpTrait;
 
-2fa_login_check:
-    path: /2fa_check
+class User implements ...
+{
+  use _TotpTrait;
+  ...
+}
 ```
+Create a migration to update the user table

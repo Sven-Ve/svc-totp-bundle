@@ -37,3 +37,13 @@ return [
     Svc\UtilBundle\SvcTotpBundle::class => ['all' => true],
 ];
 ```
+
+## Additional steps
+
+The bundle "endroid/qr-code-bundle" is used to display the QR code. This is installed during the installation.
+
+The following question must be answered with "y":
+```
+endroid/installer contains a Composer plugin which is currently not in your allow-plugins config. See https://getcomposer.org/allow-plugins
+Do you trust "endroid/installer" to execute code and wish to enable it now? (writes "allow-plugins" to composer.json) [y,n,d,?] y
+```

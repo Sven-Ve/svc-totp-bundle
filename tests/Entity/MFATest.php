@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Service;
 namespace Svc\TotpBundle\Controller\Tests\Entity;
-require_once(__dir__ . "/../Dummy/UserDummy.php");
+
+require_once __DIR__ . '/../Dummy/UserDummy.php';
 
 use App\Entity\User;
 use PHPUnit\Framework\TestCase;

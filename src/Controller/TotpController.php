@@ -6,9 +6,9 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Endroid\QrCode\Builder\Builder;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TotpController extends AbstractController
 {
@@ -77,8 +77,8 @@ class TotpController extends AbstractController
     } else {
       $this->addFlash('warning', 'Cannot enable 2FA');
     }
-    return $this->redirectToRoute('svc_totp_manage');
 
+    return $this->redirectToRoute('svc_totp_manage');
   }
 
   /**

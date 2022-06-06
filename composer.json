@@ -1,6 +1,6 @@
 {
     "name": "svc/totp-bundle",
-    "description": "UI for totp",
+    "description": "Userinterface for the excellent SchebTwoFactorBundle",
     "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
