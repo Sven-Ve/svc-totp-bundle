@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "1.0.0";
-$message = "first version added to sv-video";
+$version = "1.0.1";
+$message = "added documentation";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);
