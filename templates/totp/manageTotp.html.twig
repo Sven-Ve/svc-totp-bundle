@@ -42,7 +42,7 @@
       </a>
 
     {% else %}
-      <h3>{% trans %}If done, click on this button{% endtrans %}</h3>
+      <strong>% trans %}If done, click on this button{% endtrans %}</strong>
       <a class="btn btn-primary btn-block" href="{{ path('svc_totp_enable') }}">{% trans %}Enable 2FA{% endtrans %}</a>
     {% endif %}
 
