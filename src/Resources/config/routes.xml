@@ -20,8 +20,15 @@
         <!-- settings -->
     </route>
 
+    <route id="svc_totp_oth_disable" controller="svc_totp.controller::disableOtherTotp" path="/disable/{id}" >
+        <!-- settings -->
+    </route>
+
     <route id="svc_totp_cleartd" controller="svc_totp.controller::clearTrustedDevice" path="/cleartd/" >
         <!-- settings -->
     </route>
 
+    <route id="svc_totp_clear_oth_td" controller="svc_totp.controller::clearOtherTrustedDevice" path="/clearotd/{id}" >
+        <!-- settings -->
+    </route>
 </routes>

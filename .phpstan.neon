@@ -2,3 +2,6 @@ parameters:
   ignoreErrors:
   - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition.*#'
   - '#Call to an undefined method Symfony\\Component\\Security\\Core\\User\\UserInterface::.*#'
+  - '#Call to method .*\(\) on an unknown class App\\Entity\\User#'
+  - '#Parameter \$user of method .*\(\) has invalid type App\\Entity\\User#'
+  - '#Parameter \$userRep of method .*\(\) has invalid type App\\Repository\\UserRepository#'

@@ -14,6 +14,7 @@ class Configuration implements ConfigurationInterface
 
     $rootNode
     ->children()
+      ->scalarNode('home_path')->cannotBeEmpty()->defaultValue('home')->info('Default Homepage path for redirecting after actions')->end()
     ->end();
 
     return $treeBuilder;

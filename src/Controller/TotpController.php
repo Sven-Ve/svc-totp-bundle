@@ -2,17 +2,19 @@
 
 namespace Svc\TotpBundle\Controller;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Endroid\QrCode\Builder\Builder;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class TotpController extends AbstractController
 {
-  public function __construct(private readonly EntityManagerInterface $entityManager)
+  public function __construct(private readonly EntityManagerInterface $entityManager, private readonly string $homePath)
   {
   }
 
@@ -82,7 +84,7 @@ class TotpController extends AbstractController
   }
 
   /**
-   * disable 2fa but keep the secret.
+   * disable 2fa but keep the secret for the current user.
    */
   public function disableTotp(): Response
   {
@@ -98,12 +100,28 @@ class TotpController extends AbstractController
   }
 
   /**
+   * disable 2fa but keep the secret for another user.
+   */
+  public function disableOtherTotp(User $user): Response
+  {
+    $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+    if ($user->isTotpAuthenticationEnabled()) {
+      $user->disableTotpAuthentication();
+      $this->entityManager->flush();
+      $this->addFlash('info', '2FA for user ' . $user->getUserIdentifier() . ' disabled.');
+    }
+
+    return $this->redirectToRoute($this->homePath);
+  }
+
+  /**
    * clear trusted device for current or all users.
    */
-  /* @phpstan-ignore-next-line */
-  public function clearTrustedDevice(UserRepository $userRep, bool $allUsers = false): Response
+  public function clearTrustedDevice(UserRepository $userRep, Request $request): Response
   {
-    $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+    $allUsers = (bool) $request->get('allUsers');
+
     if (!$allUsers) {
       $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
       $user = $this->getUser();
@@ -116,16 +134,34 @@ class TotpController extends AbstractController
       $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
       /* @phpstan-ignore-next-line */
-      foreach ($userRep->findAll() as $user) {
+      foreach ($userRep->findBy(['isTotpAuthenticationEnabled' => true]) as $user) {
         $user->clearTrustedToken();
       }
       $this->entityManager->flush();
       $this->addFlash('info', 'All trusted devices were deleted.');
 
-      return $this->redirectToRoute('home');
+      return $this->redirectToRoute($this->homePath);
     }
   }
 
+  /**
+   * clear trusted device for other users.
+   */
+  public function clearOtherTrustedDevice(User $user): Response
+  {
+    $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+    $user->clearTrustedToken();
+    $this->entityManager->flush();
+
+    $this->addFlash('info', 'The trusted devices for user ' . $user->getUserIdentifier() . ' were deleted.');
+
+    return $this->redirectToRoute($this->homePath);
+  }
+
+  /**
+   * generate a backup code with $digits digits (default 6).
+   */
   private function generateCode(int $digits = 6): int
   {
     $min = 10 ** ($digits - 1);
