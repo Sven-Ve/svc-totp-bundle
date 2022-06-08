@@ -31,4 +31,6 @@
     <route id="svc_totp_clear_oth_td" controller="svc_totp.controller::clearOtherTrustedDevice" path="/clearotd/{id}" >
         <!-- settings -->
     </route>
+
+    <route id="svc_totp_user_admin" controller="svc_totp.admin_controller::index" path="/admin/users" ></route>
 </routes>

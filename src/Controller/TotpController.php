@@ -86,13 +86,14 @@ class TotpController extends AbstractController
   /**
    * disable 2fa but keep the secret for the current user.
    */
-  public function disableTotp(): Response
+  public function disableTotp(Request $request): Response
   {
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
+    $reset = (bool) $request->get('reset');
     $user = $this->getUser();
     if ($user->isTotpAuthenticationEnabled()) {
-      $user->disableTotpAuthentication();
+      $user->disableTotpAuthentication($reset);
       $this->entityManager->flush();
     }
 
@@ -102,12 +103,14 @@ class TotpController extends AbstractController
   /**
    * disable 2fa but keep the secret for another user.
    */
-  public function disableOtherTotp(User $user): Response
+  public function disableOtherTotp(User $user, Request $request): Response
   {
     $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
+    $reset = (bool) $request->get('reset');
+
     if ($user->isTotpAuthenticationEnabled()) {
-      $user->disableTotpAuthentication();
+      $user->disableTotpAuthentication($reset);
       $this->entityManager->flush();
       $this->addFlash('info', '2FA for user ' . $user->getUserIdentifier() . ' disabled.');
     }

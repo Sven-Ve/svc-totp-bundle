@@ -69,11 +69,14 @@ trait _TotpTrait
   /**
    * disable TOTP completely.
    */
-  public function disableTotpAuthentication(): void
+  public function disableTotpAuthentication(?bool $reset = false): void
   {
     $this->isTotpAuthenticationEnabled = false;
     $this->trustedVersion = 0;
     $this->clearBackUpCodes();
+    if ($reset) {
+      $this->setTotpSecret(null);
+    }
   }
 
   /**

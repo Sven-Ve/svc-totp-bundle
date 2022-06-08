@@ -72,6 +72,18 @@ class MFATest extends TestCase
     $this->assertEquals($user->getTrustedTokenVersion(), 0);
   }
 
+  public function testTOTPReset(): void
+  {
+    $user = new User();
+    $user->setTotpSecret('abcdefg');
+    $this->assertTrue($user->isTotpSecret());
+
+    $user->disableTotpAuthentication(true);
+
+    $this->assertFalse($user->isTotpAuthenticationEnabled());
+    $this->assertFalse($user->isTotpSecret());
+  }
+
   public function testTOTPUsername(): void
   {
     $user = new User();

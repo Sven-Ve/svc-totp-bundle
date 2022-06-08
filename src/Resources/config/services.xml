@@ -13,5 +13,13 @@
         <tag name="controller.service_arguments"/>
       </service>
 
+      <service id="svc_totp.admin_controller" class="Svc\TotpBundle\Controller\TotpAdminController" public="true" autowire="true" >
+        <call method="setContainer">
+            <argument type="service" id="Psr\Container\ContainerInterface"/>
+        </call>
+        <tag name="container.service_subscriber"/>
+        <tag name="controller.service_arguments"/>
+      </service>
+
     </services>
 </container>

@@ -1,0 +1,59 @@
+{% trans_default_domain 'TotpBundle' %}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{% trans %}User index{% endtrans %}
+{% endblock %}
+
+{% block body %}
+	<h1>{% trans %}Users{% endtrans %}</h1>
+
+  <div class='table-responsive'>
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th>{% trans %}Email{% endtrans %}</th>
+          <th>{% trans %}2FA enabled{% endtrans %}</th>
+          <th>{% trans %}Secret set{% endtrans %}</th>
+          <th>{% trans %}Trusted Token Version{% endtrans %}</th>
+          <th>{% trans %}2FA{% endtrans %}</th>
+          <th>{% trans %}Trusted devices{% endtrans %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+          <tr>
+            <td>{{ user.email }}</td>
+            <td>{{ user.isTotpAuthenticationEnabled ? 'Yes' | trans : 'No' | trans }}</td>
+            <td>{{ user.isTotpSecret ? 'Yes' | trans : 'No' | trans }}</td>
+            <td>{{ user.getTrustedTokenVersion }}</td>
+            <td>
+              {% if user.isTotpAuthenticationEnabled and is_granted("ROLE_ADMIN") and user.id != app.user.id %}
+                <a class='btn btn-sm btn-warning' href="{{ path('svc_totp_oth_disable', {'id' : user.id}) }}">{% trans %}Disable{% endtrans %}<a/>
+                <a class='btn btn-sm btn-danger' href="{{ path('svc_totp_oth_disable', {'id' : user.id, 'reset': true}) }}">{% trans %}Reset{% endtrans %}<a/>
+              {% endif %}
+            </td>
+            <td>
+              {% if user.isTotpAuthenticationEnabled and is_granted("ROLE_ADMIN") and user.id != app.user.id %}
+                <a class='btn btn-sm btn-primary' href="{{ path('svc_totp_clear_oth_td', {'id' : user.id}) }}" title="{% trans %}Clear trusted devices{% endtrans %}">{% trans %}Clear{% endtrans %}<a/>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <strong>Help</strong>
+    <div class="table-responsive">
+      <table class="table table-striped table-sm">
+        <tr><td>{% trans %}Disable{% endtrans %}</td>  <td>{% trans %}Disable 2FA, keep QR code for later enabling{% endtrans %}</td></td>
+        <tr><td>{% trans %}Reset{% endtrans %}</td>  <td>{% trans %}Disable 2FA, delete QR code (you need a new one for later enabling){% endtrans %}</td></td>
+        <tr><td>{% trans %}Clear{% endtrans %}</td>  <td>{% trans %}Clear trusted devices{% endtrans %}</td></td>
+      </table>
+    </div>
+  </div>
+{% endblock %}
+
+
+
+
