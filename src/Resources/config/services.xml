@@ -21,5 +21,18 @@
         <tag name="controller.service_arguments"/>
       </service>
 
+      <service id="svc_totp.service.logger" class="Svc\TotpBundle\Service\TotpLogger" public="true" autowire="true" >
+        <argument type="service" id="svc_totp.service.default_logger" />
+        <argument>%kernel.environment%</argument>
+        <tag name="controller.service_arguments"/>
+      </service>
+      <service id="Svc\TotpBundle\Service\TotpLogger" alias="svc_totp.service.logger" />
+
+
+      <service id="svc_totp.service.default_logger" class="Svc\TotpBundle\Service\TotpDefaultLogger" public="true" autowire="true" >
+        <tag name="controller.service_arguments"/>
+      </service>
+      <service id="Svc\TotpBundle\Service\TotpDefaultLogger" alias="svc_totp.service.default_logger" />
+
     </services>
 </container>

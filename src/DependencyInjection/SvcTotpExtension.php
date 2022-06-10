@@ -18,6 +18,13 @@ class SvcTotpExtension extends Extension
     $config = $this->processConfiguration($configuration, $configs);
 
     $definition = $container->getDefinition('svc_totp.controller');
-    $definition->setArgument(1, $config['home_path']);
+    $definition->setArgument(0, $config['home_path']);
+
+//    $definition = $container->getDefinition('svc_totp.service.logger');
+//    $definition->setArgument(0, $config['loggingClass'] ?? null);
+
+    if (null !== $config['loggingClass']) {
+      $container->setAlias('svc_totp.service.default_logger', $config['loggingClass']);
+    }
   }
 }

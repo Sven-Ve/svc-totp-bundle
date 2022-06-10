@@ -15,6 +15,7 @@ class Configuration implements ConfigurationInterface
     $rootNode
     ->children()
       ->scalarNode('home_path')->cannotBeEmpty()->defaultValue('home')->info('Default Homepage path for redirecting after actions')->end()
+      ->scalarNode('loggingClass')->info('Class to call for logging function. See doc for more information')->end()
     ->end();
 
     return $treeBuilder;

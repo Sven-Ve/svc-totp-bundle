@@ -11,7 +11,7 @@ _svc_totp:
     prefix: /mfa/{_locale}
 ```
 
-adapt the routing information in config/routes/scheb_2fa.yaml (only if you like language support)
+adapt the routing information in config/routes/scheb_2fa.yaml (only if you like language support) - add {_locale}
 
 ```yaml
 #config/routes/scheb_2fa.yaml
@@ -22,6 +22,18 @@ adapt the routing information in config/routes/scheb_2fa.yaml (only if you like 
 
 2fa_login_check:
     path: /2fa_check
+```
+
+## Bundle configuration
+```yaml
+#config/packages/svc_totp.yaml
+svc_totp:
+
+    # Default Homepage path for redirecting after actions
+    home_path:            home
+
+    # Class to call for logging function. See documentation (capture logging) for more information
+    loggingClass:         ~
 ```
 
 ## Security configuration

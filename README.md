@@ -18,10 +18,11 @@ The following functions are enabled:
 * Backup codes
 * Trusted devices
 
-# Installation and configuration
+## Installation and configuration
 * [Installation](docs/installation.md)
 * [Configuration](docs/config.md)
 * [Usage](docs/usage.md)
+* [Logging](docs/logging.md)
 
 ## Screenshots
 
