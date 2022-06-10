@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class TotpController extends AbstractController
 {
-  public function __construct(private readonly string $homePath, private TotpLogger $logger, private EntityManagerInterface $entityManager)
+  public function __construct(private readonly string $homePath, private readonly TotpLogger $logger, private readonly EntityManagerInterface $entityManager)
   {
   }
 

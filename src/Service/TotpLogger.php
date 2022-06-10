@@ -9,7 +9,7 @@ use Exception;
 
 class TotpLogger
 {
-  public function __construct(private TotpLoggerInterface $logger, private ?string $env)
+  public function __construct(private readonly TotpLoggerInterface $logger, private readonly ?string $env)
   {
   }
 
@@ -17,11 +17,7 @@ class TotpLogger
   {
     try {
       $this->logger->log($text, $logType, $userId);
-    } catch (ArgumentCountError $e) {
-      if ($this->env === 'dev') {
-        throw $e;
-      }
-    } catch (Exception $e) {
+    } catch (ArgumentCountError|Exception $e) {
       if ($this->env === 'dev') {
         throw $e;
       }

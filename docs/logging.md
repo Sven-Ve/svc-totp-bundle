@@ -15,7 +15,7 @@ svc_totp:
 
 ## Logging class
 
-Your class have to implement Svc\TotpBundle\Service\TotpLoggerInterface and do the logging in a function called log.<br/>
+Your class have to implement Svc\TotpBundle\Service\TotpLoggerInterface and do the logging in a function called log().<br/>
 Example:
 
 ```php

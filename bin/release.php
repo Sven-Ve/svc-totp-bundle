@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "1.1.0";
-$message = "added controller to disable 2FA/clear trusted devices for other users";
+$version = "1.2.0";
+$message = "added logging";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);
