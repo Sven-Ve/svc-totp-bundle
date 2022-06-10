@@ -5,6 +5,7 @@ return array (
   'Use your Authenticator to Scan the QR Code' => 'Scanne mit deinem Authenticator den QR Code',
   'Enable 2FA' => '2FA einschalten',
   'Disable 2FA' => '2FA ausschalten',
+  'Reset 2FA' => '2FA zurücksetzen',
   'Two Factor Authentication' => 'Zweistufige Authentifizierung',
   'Open your Authenticator app and type in the number' => 'Öffne deinen Authenticator und gib die Nummer ein',
   'Clear trusted devices' => 'Vertrauenswürdige Geräte löschen',
