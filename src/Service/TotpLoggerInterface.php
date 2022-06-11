@@ -21,5 +21,5 @@ interface TotpLoggerInterface
   /**
    * log a message.
    */
-  public function log(string $text, int $logType, int $userId): void;
+  public function log(string $text, int $logType, int $userId): bool;
 }

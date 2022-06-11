@@ -36,7 +36,7 @@ class SvcTotpTestingKernel extends Kernel
       $container->loadFromExtension(
         'framework',
         [
-          'secret' => 'foo',
+//          'secret' => 'foo',
           'http_method_override' => false,
           'router' => [
             'resource' => 'kernel::loadRoutes',

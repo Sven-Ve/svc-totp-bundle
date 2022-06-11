@@ -13,14 +13,16 @@ class TotpLogger
   {
   }
 
-  public function log(string $text, int $logType, int $userId): void
+  public function log(string $text, int $logType, int $userId): bool
   {
     try {
       $this->logger->log($text, $logType, $userId);
+      return true;
     } catch (ArgumentCountError|Exception $e) {
       if ($this->env === 'dev') {
         throw $e;
       }
     }
+    return false;
   }
 }
