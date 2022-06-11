@@ -59,14 +59,6 @@ class SvcTotpTestingKernel extends Kernel
       ]);
 
       /*
-      $container->register(ParamsRepository::class)
-        ->setAutoconfigured(true)
-        ->setAutowired(true);
-
-      $container->register(AppKernel::class)
-        ->setAutoconfigured(true)
-        ->setAutowired(true);
-
       $container->register('kernel', static::class)->setPublic(true);
 
       $kernelDefinition = $container->getDefinition('kernel');
