@@ -20,3 +20,8 @@
 ## Version 1.2.0
 *Fri, 10 Jun 2022 20:29:59 +0000*
 - added logging
+
+
+## Version 1.2.1
+*Sun, 12 Jun 2022 09:10:43 +0000*
+- improved testing

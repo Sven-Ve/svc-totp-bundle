@@ -17,12 +17,14 @@ class TotpLogger
   {
     try {
       $this->logger->log($text, $logType, $userId);
+
       return true;
     } catch (ArgumentCountError|Exception $e) {
       if ($this->env === 'dev') {
         throw $e;
       }
     }
+
     return false;
   }
 }

@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "1.2.0";
-$message = "added logging";
+$version = "1.2.1";
+$message = "improved testing";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

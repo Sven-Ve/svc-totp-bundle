@@ -13,7 +13,8 @@ class LoggerTest extends TestCase
 {
   private $container;
 
-  public function setUp(): void {
+  public function setUp(): void
+  {
     $kernel = new SvcTotpTestingKernel('test', true);
     $kernel->boot();
     $this->container = $kernel->getContainer();
@@ -26,17 +27,15 @@ class LoggerTest extends TestCase
 
     $this->assertTrue($logger->log('test', TotpLoggerInterface::LOG_TOTP_CLEAR_TD, 1));
 
-    $this->expectException("ArgumentCountError");
+    $this->expectException(\ArgumentCountError::class);
     $logger->log();
   }
 
   public function testDefaultLogger()
   {
-
     $logger = $this->container->get('svc_totp.service.default_logger');
     $this->assertInstanceOf(TotpDefaultLogger::class, $logger);
 
     $this->assertTrue($logger->log('test', TotpLoggerInterface::LOG_TOTP_CLEAR_TD, 1));
   }
-
 }
