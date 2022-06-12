@@ -34,5 +34,5 @@ return array (
   'Trusted Token Version' => '',
   'Trusted devices' => '',
   'Help' => 'Hilfe',
-  '' => '',
+  'General' => 'Allgemein',
 );

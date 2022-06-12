@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block body %}
-  <h1>{% trans %}Users{% endtrans %}</h1>
+  <h2>{% trans %}Users{% endtrans %}</h2>
 
   <div class='table-responsive'>
     <table class="table table-sm">
@@ -42,6 +42,11 @@
         {% endfor %}
       </tbody>
     </table>
+
+    <h2>{% trans %}General{% endtrans %}</h2>
+
+    <a class='btn btn-sm btn-primary' href="{{ path('svc_totp_cleartd', {'allUsers': true}) }}">{% trans %}Clear trusted devices{% endtrans %} ({% trans %}all{% endtrans %})</a>
+    <br/><br/>
 
     {% include("@SvcTotp/_gen/_help.html.twig") %}
 
