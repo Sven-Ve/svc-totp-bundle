@@ -1,17 +1,17 @@
 {% trans_default_domain 'TotpBundle' %}
 {% extends 'base.html.twig' %}
 
-{% block title %}{% trans %}Backup codes{% endtrans %}{% endblock %}
+{% block title %}{% trans %}Save Backup Codes{% endtrans %}{% endblock %}
 
 {% block body %}
 
 <div class='form-md'>
   <div class="login-form bg-light mt-4 p-4">
     <div class="alert alert-success" role="alert">
-      {% trans %}2FA is enabled.{% endtrans %}
+      {% trans %}You have successfully activated two-factor authentication for your Account{% endtrans %}.
     </div>
 
-    <h1 class="h3 mb-3 font-weight-normal">{% trans %}Backup codes{% endtrans %}</h1>
+    <h1 class="h3 mb-3 font-weight-normal">{% trans %}Save Backup Codes{% endtrans %}</h1>
 
     <div class="row">
       <div class="col-auto">
@@ -22,12 +22,11 @@
         </ol>
       </div>
       <div class="col">
-        {% trans %}Please copy these backup codes to a safe place{% endtrans %}.<br />
-        {% trans %}If your authenticator is not available, you can use one of these codes (each code only once){% endtrans %}
+        {% trans %}We strongly recommend storing backup codes in safe places like 1Password or LastPass applications{% endtrans %}.<br /><br />
+        {% trans %}Use backup codes for emergency sign in, if you lost or can’t access your Authenticator (each code only once){% endtrans %}.
       </div>
     </div>
 
   </div>
 </div>
 {% endblock %}
-
