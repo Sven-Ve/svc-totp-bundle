@@ -35,7 +35,7 @@ class TotpController extends AbstractController
       $this->logger->log('New backup codes generated', TotpLoggerInterface::LOG_TOTP_SHOW_QR, $user->getId());
 
       return $this->render('@SvcTotp/totp/backCodesTotp.html.twig', [
-        'backupcodes' => $this->generateBackCodes(),
+          'backupcodes' => $this->generateBackCodes(),
       ]);
     }
 
@@ -63,11 +63,11 @@ class TotpController extends AbstractController
     }
 
     $result = Builder::create()
-      /* @phpstan-ignore-next-line */
-      ->data($totpAuthenticator->getQRContent($user))
-      ->size(200)
-      ->margin(0)
-      ->build();
+        /* @phpstan-ignore-next-line */
+        ->data($totpAuthenticator->getQRContent($user))
+        ->size(200)
+        ->margin(0)
+        ->build();
 
     return new Response($result->getString(), 200, ['Content-Type' => 'image/png']);
   }
@@ -98,13 +98,13 @@ class TotpController extends AbstractController
   {
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-    $reset = (bool) $request->get('reset');
+    $reset = (bool)$request->get('reset');
     $user = $this->getUser();
     if ($user->isTotpAuthenticationEnabled()) {
       $user->disableTotpAuthentication($reset);
       $this->entityManager->flush();
       if ($reset) {
-        $this->logger->log('TOTP reseted', TotpLoggerInterface::LOG_TOTP_RESET, $user->getId());
+        $this->logger->log('TOTP reset', TotpLoggerInterface::LOG_TOTP_RESET, $user->getId());
       } else {
         $this->logger->log('TOTP disabled', TotpLoggerInterface::LOG_TOTP_DISABLE, $user->getId());
       }
@@ -120,14 +120,14 @@ class TotpController extends AbstractController
   {
     $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-    $reset = (bool) $request->get('reset');
+    $reset = (bool)$request->get('reset');
 
     if ($user->isTotpAuthenticationEnabled()) {
       $user->disableTotpAuthentication($reset);
       $this->entityManager->flush();
       if ($reset) {
-        $this->logger->log('TOTP reseted by ' . $this->getUser()->getUserIdentifier(), TotpLoggerInterface::LOG_TOTP_RESET_BY_ADMIN, $user->getId());
-        $this->addFlash('info', '2FA for user ' . $user->getUserIdentifier() . ' reseted.');
+        $this->logger->log('TOTP reset by ' . $this->getUser()->getUserIdentifier(), TotpLoggerInterface::LOG_TOTP_RESET_BY_ADMIN, $user->getId());
+        $this->addFlash('info', '2FA for user ' . $user->getUserIdentifier() . ' reset.');
       } else {
         $this->logger->log('TOTP disabled by ' . $this->getUser()->getUserIdentifier(), TotpLoggerInterface::LOG_TOTP_DISABLE_BY_ADMIN, $user->getId());
         $this->addFlash('info', '2FA for user ' . $user->getUserIdentifier() . ' disabled.');
@@ -142,7 +142,7 @@ class TotpController extends AbstractController
    */
   public function clearTrustedDevice(UserRepository $userRep, Request $request): Response
   {
-    $allUsers = (bool) $request->get('allUsers');
+    $allUsers = (bool)$request->get('allUsers');
 
     if (!$allUsers) {
       $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -203,7 +203,7 @@ class TotpController extends AbstractController
       $bCodes = [];
       while (count($bCodes) < $user->getMaxBackupCodes()) {
         $bCode = $this->generateCode();
-        if ($user->addBackUpCode((string) $bCode)) {
+        if ($user->addBackUpCode((string)$bCode)) {
           $bCodes[] = $bCode;
         }
       }

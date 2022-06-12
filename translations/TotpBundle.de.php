@@ -18,4 +18,11 @@ return array (
   'If your authenticator is not available, you can use one of these codes (each code only once)' => 'Sollte dein Authenticator nicht verfügbar sein, kannst du einen dieser Codes benutzen (jeden Code nur einmal)',
   'Backup codes' => 'Backup-Codes',
   'Cancel' => 'Abbrechen',
+  'Users' => 'Benutzer',
+  '2FA enabled' => '2FA eingeschaltet',
+  '2FA' => '2FA',
+  'Yes' => 'Ja',
+  'Nein' => 'No',
+  '' => '',
+  '' => '',
 );
