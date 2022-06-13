@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
+use SymfonyCasts\Bundle\VerifyEmail\SymfonyCastsVerifyEmailBundle;
 
 class SvcTotpTestingKernel extends Kernel
 {
@@ -19,6 +20,7 @@ class SvcTotpTestingKernel extends Kernel
       new SvcTotpBundle(),
       new FrameworkBundle(),
       new DoctrineBundle(),
+      new SymfonyCastsVerifyEmailBundle(),
     ];
   }
 
@@ -36,7 +38,7 @@ class SvcTotpTestingKernel extends Kernel
       $container->loadFromExtension(
         'framework',
         [
-          //          'secret' => 'foo',
+          'secret' => 'foo',
           'http_method_override' => false,
           'router' => [
             'resource' => 'kernel::loadRoutes',

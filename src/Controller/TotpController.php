@@ -100,7 +100,7 @@ class TotpController extends AbstractController
   {
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-    $reset = (bool)$request->get('reset');
+    $reset = (bool) $request->get('reset');
     $user = $this->getUser();
     if ($user->isTotpAuthenticationEnabled()) {
       $user->disableTotpAuthentication($reset);
@@ -122,7 +122,7 @@ class TotpController extends AbstractController
   {
     $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-    $reset = (bool)$request->get('reset');
+    $reset = (bool) $request->get('reset');
 
     if ($user->isTotpAuthenticationEnabled()) {
       $user->disableTotpAuthentication($reset);
@@ -144,7 +144,7 @@ class TotpController extends AbstractController
    */
   public function clearTrustedDevice(UserRepository $userRep, Request $request): Response
   {
-    $allUsers = (bool)$request->get('allUsers');
+    $allUsers = (bool) $request->get('allUsers');
 
     if (!$allUsers) {
       $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -193,7 +193,7 @@ class TotpController extends AbstractController
   {
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_2FA_IN_PROGRESS');
     $user = $this->getUser();
-    $send = (bool)$request->get("send", false);
+    $send = (bool) $request->get('send', false);
 
     if ($send) {
       $signatureComponents = $this->verifyEmailHelper->generateSignature(
@@ -214,10 +214,11 @@ class TotpController extends AbstractController
    */
   public function verifyForgetPassword(Request $request, UserRepository $userRep): Response
   {
-    $id = $request->get('id'); //
+    $id = $request->get('id');
 
     if (null === $id) {
       $this->addFlash('danger', 'No user defined.');
+
       return $this->redirectToRoute($this->homePath);
     }
 
@@ -226,6 +227,7 @@ class TotpController extends AbstractController
     // Ensure the user exists in persistence
     if (null === $user) {
       $this->addFlash('danger', 'User not exists.');
+
       return $this->redirectToRoute($this->homePath);
     }
 
@@ -242,8 +244,7 @@ class TotpController extends AbstractController
     $this->entityManager->flush();
     $this->logger->log('TOTP disabled by forget function', TotpLoggerInterface::LOG_TOTP_RESET, $user->getId());
 
-    return $this->redirectToRoute("app_logout");
-
+    return $this->redirectToRoute('app_logout');
   }
 
   /**
@@ -265,7 +266,7 @@ class TotpController extends AbstractController
       $bCodes = [];
       while (count($bCodes) < $user->getMaxBackupCodes()) {
         $bCode = $this->generateCode();
-        if ($user->addBackUpCode((string)$bCode)) {
+        if ($user->addBackUpCode((string) $bCode)) {
           $bCodes[] = $bCode;
         }
       }
