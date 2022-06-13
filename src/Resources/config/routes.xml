@@ -33,4 +33,9 @@
     </route>
 
     <route id="svc_totp_user_admin" controller="svc_totp.admin_controller::index" path="/admin/users" ></route>
+
+    <route id="svc_totp_forgot" controller="svc_totp.controller::forgetPassword" path="/forgot" ></route>
+
+    <route id="svc_totp_verify_forgot" controller="svc_totp.controller::verifyForgetPassword" path="/forgot/verify" ></route>
+
 </routes>

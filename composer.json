@@ -20,7 +20,8 @@
         "scheb/2fa-trusted-device": "^6.0",
         "symfony/framework-bundle": "5.4.*|^6",
         "symfony/twig-bundle": "5.4.*|^6",
-        "symfony/translation": "5.4.*|^6"
+        "symfony/translation": "5.4.*|^6",
+        "symfonycasts/verify-email-bundle": "^1.10"
     },
     "autoload": {
         "psr-4": {

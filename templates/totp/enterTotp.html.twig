@@ -30,6 +30,7 @@
 						<input type="hidden" name="{{ csrfParameterName }}" value="{{ csrf_token(csrfTokenId) }}">
 					{% endif %}
 					<a class="btn btn-link" href="{{ logoutPath }}">{{ "Cancel"|trans }}</a>
+					<a class="btn btn-link" href="{{ path('svc_totp_forgot') }}">{{ "Forgot/lost 2FA code"|trans }}</a>
 					<button type="submit" class="btn btn-primary">{{ "Login"|trans }}</button>
 				</form>
 

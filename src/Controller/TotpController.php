@@ -13,10 +13,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 class TotpController extends AbstractController
 {
-  public function __construct(private readonly string $homePath, private readonly TotpLogger $logger, private readonly EntityManagerInterface $entityManager)
+  public function __construct(private readonly string $homePath, private readonly TotpLogger $logger, private readonly EntityManagerInterface $entityManager, private readonly VerifyEmailHelperInterface $verifyEmailHelper)
   {
   }
 
@@ -63,11 +65,11 @@ class TotpController extends AbstractController
     }
 
     $result = Builder::create()
-        /* @phpstan-ignore-next-line */
-        ->data($totpAuthenticator->getQRContent($user))
-        ->size(200)
-        ->margin(0)
-        ->build();
+      /* @phpstan-ignore-next-line */
+      ->data($totpAuthenticator->getQRContent($user))
+      ->size(200)
+      ->margin(0)
+      ->build();
 
     return new Response($result->getString(), 200, ['Content-Type' => 'image/png']);
   }
@@ -98,7 +100,7 @@ class TotpController extends AbstractController
   {
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-    $reset = (bool) $request->get('reset');
+    $reset = (bool)$request->get('reset');
     $user = $this->getUser();
     if ($user->isTotpAuthenticationEnabled()) {
       $user->disableTotpAuthentication($reset);
@@ -120,7 +122,7 @@ class TotpController extends AbstractController
   {
     $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-    $reset = (bool) $request->get('reset');
+    $reset = (bool)$request->get('reset');
 
     if ($user->isTotpAuthenticationEnabled()) {
       $user->disableTotpAuthentication($reset);
@@ -142,7 +144,7 @@ class TotpController extends AbstractController
    */
   public function clearTrustedDevice(UserRepository $userRep, Request $request): Response
   {
-    $allUsers = (bool) $request->get('allUsers');
+    $allUsers = (bool)$request->get('allUsers');
 
     if (!$allUsers) {
       $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -185,6 +187,66 @@ class TotpController extends AbstractController
   }
 
   /**
+   * forget password, reset via mail.
+   */
+  public function forgetPassword(Request $request): Response
+  {
+    $this->denyAccessUnlessGranted('IS_AUTHENTICATED_2FA_IN_PROGRESS');
+    $user = $this->getUser();
+    $send = (bool)$request->get("send", false);
+
+    if ($send) {
+      $signatureComponents = $this->verifyEmailHelper->generateSignature(
+        'svc_totp_verify_forgot',
+        $user->getId(),
+        $user->getEmail(),
+        ['id' => $user->getId()]
+      );
+      // TODO send mail
+      dd($signatureComponents);
+    }
+
+    return $this->render('@SvcTotp/forgot/forget2FA.html.twig');
+  }
+
+  /**
+   * verify forget password, reset via mail.
+   */
+  public function verifyForgetPassword(Request $request, UserRepository $userRep): Response
+  {
+    $id = $request->get('id'); //
+
+    if (null === $id) {
+      $this->addFlash('danger', 'No user defined.');
+      return $this->redirectToRoute($this->homePath);
+    }
+
+    $user = $userRep->find($id);
+
+    // Ensure the user exists in persistence
+    if (null === $user) {
+      $this->addFlash('danger', 'User not exists.');
+      return $this->redirectToRoute($this->homePath);
+    }
+
+    try {
+      $this->verifyEmailHelper->validateEmailConfirmation($request->getUri(), $user->getId(), $user->getEmail());
+    } catch (VerifyEmailExceptionInterface $e) {
+      $this->addFlash('danger', $e->getReason());
+
+      return $this->redirectToRoute($this->homePath);
+    }
+
+    // reset 2FA
+    $user->disableTotpAuthentication();
+    $this->entityManager->flush();
+    $this->logger->log('TOTP disabled by forget function', TotpLoggerInterface::LOG_TOTP_RESET, $user->getId());
+
+    return $this->redirectToRoute("app_logout");
+
+  }
+
+  /**
    * generate a backup code with $digits digits (default 6).
    */
   private function generateCode(int $digits = 6): int
@@ -203,7 +265,7 @@ class TotpController extends AbstractController
       $bCodes = [];
       while (count($bCodes) < $user->getMaxBackupCodes()) {
         $bCode = $this->generateCode();
-        if ($user->addBackUpCode((string) $bCode)) {
+        if ($user->addBackUpCode((string)$bCode)) {
           $bCodes[] = $bCode;
         }
       }

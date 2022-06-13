@@ -1,6 +1,6 @@
 <?php
 
-return array (
+return [
   'Manage 2FA' => '2FA verwalten',
   'Use your Authenticator to Scan the QR Code' => 'Scanne mit deinem Authenticator den QR Code',
   'Enable 2FA' => '2FA einschalten',
@@ -35,4 +35,4 @@ return array (
   'Trusted devices' => '',
   'Help' => 'Hilfe',
   'General' => 'Allgemein',
-);
+];
