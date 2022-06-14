@@ -23,5 +23,8 @@ class SvcTotpExtension extends Extension
     if (array_key_exists('loggingClass', $config) and null !== $config['loggingClass']) {
       $container->setAlias('svc_totp.service.default_logger', $config['loggingClass']);
     }
+
+    $definition = $container->getDefinition('svc_totp.forgot_controller');
+    $definition->setArgument(0, $config['home_path']);
   }
 }
