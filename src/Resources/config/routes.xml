@@ -38,4 +38,6 @@
 
     <route id="svc_totp_verify_forgot" controller="svc_totp.forgot_controller::verifyForgetPassword" path="/forgot/verify" />
 
+    <route id="svc_totp_forgot_btn" controller="svc_totp.controller::forgotButton" path="/forgot/btn" />
+
 </routes>

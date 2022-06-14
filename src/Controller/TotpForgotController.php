@@ -17,10 +17,9 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 class TotpForgotController extends AbstractController
 {
-  public function __construct(private string $homePath, private readonly TotpLogger $logger, private readonly EntityManagerInterface $entityManager, private readonly VerifyEmailHelperInterface $verifyEmailHelper)
+  public function __construct(private readonly string $homePath, private readonly bool $enableForgot2FA, private readonly TotpLogger $logger, private readonly EntityManagerInterface $entityManager, private readonly VerifyEmailHelperInterface $verifyEmailHelper)
   {
   }
-
 
   /**
    * forget password, reset via mail.
@@ -28,6 +27,12 @@ class TotpForgotController extends AbstractController
   public function forgetPassword(Request $request, MailerInterface $mailer): Response
   {
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_2FA_IN_PROGRESS');
+
+    if (!$this->enableForgot2FA) {
+      $this->addFlash("warning", "Forgot 2FA function is not enabled.");
+      return $this->redirectToRoute($this->homePath);
+    }
+
     $user = $this->getUser();
     $send = (bool) $request->get('send', false);
 
@@ -67,6 +72,10 @@ class TotpForgotController extends AbstractController
    */
   public function verifyForgetPassword(Request $request, UserRepository $userRep): Response
   {
+    if (!$this->enableForgot2FA) {
+      $this->addFlash("warning", "Forgot 2FA function is not enabled.");
+      return $this->redirectToRoute($this->homePath);
+    }
     $id = $request->get('id');
 
     if (null === $id) {
@@ -99,6 +108,5 @@ class TotpForgotController extends AbstractController
 
     return $this->redirectToRoute('app_logout');
   }
-
 
 }

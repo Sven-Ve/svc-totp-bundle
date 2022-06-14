@@ -19,7 +19,7 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class TotpController extends AbstractController
 {
-  public function __construct(private readonly string $homePath, private readonly TotpLogger $logger, private readonly EntityManagerInterface $entityManager)
+  public function __construct(private readonly string $homePath, private readonly bool $enableForgot2FA, private readonly TotpLogger $logger, private readonly EntityManagerInterface $entityManager)
   {
   }
 
@@ -185,6 +185,22 @@ class TotpController extends AbstractController
     $this->addFlash('info', 'The trusted devices for user ' . $user->getUserIdentifier() . ' were deleted.');
 
     return $this->redirectToRoute($this->homePath);
+  }
+
+  /**
+   * show the button "forgot 2FA" if function enabled.
+   */
+  public function forgotButton(): Response
+  {
+    $this->denyAccessUnlessGranted('IS_AUTHENTICATED_2FA_IN_PROGRESS');
+
+    if (!$this->enableForgot2FA) {
+      return new Response();
+    }
+
+
+
+    return $this->render('@SvcTotp/forgot/_forgot2FAbtn.html.twig');
   }
 
   /**

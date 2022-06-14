@@ -35,4 +35,7 @@ return [
   'Trusted devices' => '',
   'Help' => 'Hilfe',
   'General' => 'Allgemein',
+  'Login' => 'Anmelden',
+  'Forgot/lost 2FA code' => '2FA Code vergessen/verloren',
+  '' => '',
 ];
