@@ -16,7 +16,7 @@ class Configuration implements ConfigurationInterface
     ->children()
       ->scalarNode('home_path')->cannotBeEmpty()->defaultValue('home')->info('Default Homepage path for redirecting after actions')->end()
       ->scalarNode('loggingClass')->defaultNull()->info('Class to call for logging function. See doc for more information')->end()
-      ->booleanNode("enableForgot2FA")->defaultFalse()->info('Is "Forgot 2FA" functionality enabled?')->end()
+      ->booleanNode('enableForgot2FA')->defaultFalse()->info('Is "Forgot 2FA" functionality enabled?')->end()
     ->end();
 
     return $treeBuilder;

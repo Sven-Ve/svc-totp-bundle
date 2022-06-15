@@ -12,12 +12,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 class TotpForgotController extends AbstractController
 {
-  public function __construct(private readonly string $homePath, private readonly bool $enableForgot2FA, private readonly TotpLogger $logger, private readonly EntityManagerInterface $entityManager, private readonly VerifyEmailHelperInterface $verifyEmailHelper)
+  public function __construct(private readonly string $homePath, private readonly bool $enableForgot2FA, private readonly TotpLogger $logger, private readonly EntityManagerInterface $entityManager, private readonly VerifyEmailHelperInterface $verifyEmailHelper, private readonly TranslatorInterface $translator)
   {
   }
 
@@ -29,7 +31,8 @@ class TotpForgotController extends AbstractController
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_2FA_IN_PROGRESS');
 
     if (!$this->enableForgot2FA) {
-      $this->addFlash("warning", "Forgot 2FA function is not enabled.");
+      $this->addFlash('warning', 'Forgot 2FA function is not enabled.');
+
       return $this->redirectToRoute($this->homePath);
     }
 
@@ -48,20 +51,20 @@ class TotpForgotController extends AbstractController
       $email = new TemplatedEmail();
       $email->from('technik@sv-systems.com');
       $email->to($user->getEmail());
+      $email->subject($this->t('Reset 2FA'));
+      $email->priority(Email::PRIORITY_HIGH);
       $email->htmlTemplate('@SvcTotp/forgot/verify_email.html.twig');
       $email->context([
         'signedUrl' => $signatureComponents->getSignedUrl(),
         'expiresAtMessageKey' => $signatureComponents->getExpirationMessageKey(),
         'expiresAtMessageData' => $signatureComponents->getExpirationMessageData(),
-        ]);
-
-      // TODO add flash, redirect to logout?
-      dump($signatureComponents);
-//      dd($email);
+      ]);
 
       $mailer->send($email);
-      return $this->redirectToRoute("app_logout");
+      $this->addFlash('info', $this->t('OTP reset email sent, please check your inbox'));
+//      dd('Hier');
 
+      return $this->redirectToRoute('app_logout');
     }
 
     return $this->render('@SvcTotp/forgot/forget2FA.html.twig');
@@ -73,7 +76,8 @@ class TotpForgotController extends AbstractController
   public function verifyForgetPassword(Request $request, UserRepository $userRep): Response
   {
     if (!$this->enableForgot2FA) {
-      $this->addFlash("warning", "Forgot 2FA function is not enabled.");
+      $this->addFlash('warning', 'Forgot 2FA function is not enabled.');
+
       return $this->redirectToRoute($this->homePath);
     }
     $id = $request->get('id');
@@ -109,4 +113,11 @@ class TotpForgotController extends AbstractController
     return $this->redirectToRoute('app_logout');
   }
 
+  /**
+   * private function to translate content in namespace 'TotpBundle'.
+   */
+  private function t(string $text, array $placeholder = []): string
+  {
+    return $this->translator->trans($text, $placeholder, 'TotpBundle');
+  }
 }

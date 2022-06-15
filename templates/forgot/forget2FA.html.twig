@@ -10,13 +10,11 @@
 
     <h2 class="h3 mb-3 font-weight-normal">{% trans %}Forgot/lost 2FA code{% endtrans %}</h2>
 
-    {% trans %}If you forgot or lost your 2FA (QR) code, you can reset 2FA{% endtrans %}<br/>
-    {% trans %}We will send you an email to confirm your identity.{% endtrans %}<br/>
+    {% trans %}If you forgot or lost your 2FA (QR) code, you can reset 2FA{% endtrans %}.<br/>
+    {% trans %}We will email you to confirm your identity{% endtrans %}.<br/>
 
-    {# TODO Wenn du deinen 2FA (QR)-Code vergessen oder verloren hast, kannst du 2FA zurücksetzen. #}
-    {# TODO Wir senden dir eine E-Mail zur Bestätigung deiner Identität. #}
-
-    <a class="btn btn-primary" href="{{ path('svc_totp_forgot', {'send' : true} ) }}">Send mail</a>
+    <br/>
+    <a class="btn btn-primary" href="{{ path('svc_totp_forgot', {'send' : true} ) }}">{% trans %}Send email{% endtrans %}</a>
   </div>
 </div>
 {% endblock %}

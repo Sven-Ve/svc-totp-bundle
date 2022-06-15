@@ -9,13 +9,10 @@ use Endroid\QrCode\Builder\Builder;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInterface;
 use Svc\TotpBundle\Service\TotpLogger;
 use Svc\TotpBundle\Service\TotpLoggerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Mailer\MailerInterface;
-use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class TotpController extends AbstractController
 {
@@ -197,8 +194,6 @@ class TotpController extends AbstractController
     if (!$this->enableForgot2FA) {
       return new Response();
     }
-
-
 
     return $this->render('@SvcTotp/forgot/_forgot2FAbtn.html.twig');
   }
