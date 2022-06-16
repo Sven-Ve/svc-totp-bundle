@@ -13,10 +13,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TotpController extends AbstractController
 {
-  public function __construct(private readonly string $homePath, private readonly bool $enableForgot2FA, private readonly TotpLogger $logger, private readonly EntityManagerInterface $entityManager)
+  public function __construct(private readonly string $homePath, private readonly bool $enableForgot2FA, private readonly TotpLogger $logger, private readonly EntityManagerInterface $entityManager, private readonly TranslatorInterface $translator)
   {
   }
 
@@ -149,7 +150,7 @@ class TotpController extends AbstractController
       $user = $this->getUser();
       $user->clearTrustedToken();
       $this->entityManager->flush();
-      $this->addFlash('info', 'Your trusted devices were deleted.');
+      $this->addFlash('info', $this->t('Your trusted devices have been deleted.'));
       $this->logger->log('TOTP trusted devices cleared', TotpLoggerInterface::LOG_TOTP_CLEAR_TD, $user->getId());
 
       return $this->redirectToRoute('svc_totp_manage');
@@ -162,7 +163,7 @@ class TotpController extends AbstractController
         $this->logger->log('TOTP trusted devices (all) cleared by ' . $this->getUser()->getUserIdentifier(), TotpLoggerInterface::LOG_TOTP_CLEAR_TD_BY_ADMIN, $user->getId());
       }
       $this->entityManager->flush();
-      $this->addFlash('info', 'All trusted devices were deleted.');
+      $this->addFlash('info', $this->t('All trusted devices have been deleted.'));
 
       return $this->redirectToRoute($this->homePath);
     }
@@ -179,7 +180,7 @@ class TotpController extends AbstractController
     $this->entityManager->flush();
 
     $this->logger->log('TOTP trusted devices cleared by ' . $this->getUser()->getUserIdentifier(), TotpLoggerInterface::LOG_TOTP_CLEAR_TD_BY_ADMIN, $user->getId());
-    $this->addFlash('info', 'The trusted devices for user ' . $user->getUserIdentifier() . ' were deleted.');
+    $this->addFlash('info', $this->t('The trusted devices for user %user% have been deleted.', ['%user%'=>$user->getUserIdentifier()]));
 
     return $this->redirectToRoute($this->homePath);
   }
@@ -209,6 +210,9 @@ class TotpController extends AbstractController
     return random_int($min, $max);
   }
 
+  /**
+   * create an array of backup codes
+   */
   private function generateBackCodes(): array
   {
     $user = $this->getUser();
@@ -228,5 +232,13 @@ class TotpController extends AbstractController
     } else {
       return [];
     }
+  }
+
+  /**
+   * private function to translate content in namespace 'TotpBundle'.
+   */
+  private function t(string $text, array $placeholder = []): string
+  {
+    return $this->translator->trans($text, $placeholder, 'TotpBundle');
   }
 }

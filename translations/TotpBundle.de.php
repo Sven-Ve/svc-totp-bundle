@@ -40,8 +40,8 @@ return [
   'If you forgot or lost your 2FA (QR) code, you can reset 2FA' => 'Wenn du deinen 2FA (QR)-Code vergessen oder verloren hast, kannst du 2FA zurücksetzen',
   'We will email you to confirm your identity' => 'Wir senden dir eine E-Mail zur Bestätigung deiner Identität',
   'Send email' => 'Email senden',
-  '' => '',
-  '' => '',
-  '' => '',
+  'The trusted devices for user %user% have been deleted.' => 'Die vertrauenswürdigen Geräte für den Benutzer %user% wurden gelöscht.',
+  'All trusted devices have been deleted.' => 'Alle vertrauenswürdigen Geräten wurden gelöscht.',
+  'Your trusted devices have been deleted.' => 'Deine vertrauenswürdigen Geräten wurden gelöscht.',
   '' => '',
 ];
