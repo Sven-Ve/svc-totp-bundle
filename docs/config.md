@@ -107,3 +107,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
 ```
 
 Create a migration to update the user table
+
+## Enable Forget QR Code function
+
+This function is disabled by default. Enable it in svc_totp.yaml:
+```yaml
+#config/packages/svc_totp.yaml
+svc_totp:
+  ...
+  # Is "Forgot 2FA" functionality enabled?
+  enableForgot2FA:      true
+```
+
+and add the path to the reset method to security.yaml right after the two other 2FA paths
+```yaml
+# config/packages/security.yaml
+access_control:
+    - ...
+    - { path: ^/mfa/.*/forgot, role: IS_AUTHENTICATED_2FA_IN_PROGRESS }
+```

@@ -37,3 +37,7 @@ The following functions are enabled:
 ### Backup codes
 
 ![Backup codes](/docs/images/backup-codes.png)
+
+### Enter 2FA code
+
+![Enter 2FA code](/docs/images/2fa-enter-code.png)
