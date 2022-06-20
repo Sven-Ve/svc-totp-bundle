@@ -180,7 +180,7 @@ class TotpController extends AbstractController
     $this->entityManager->flush();
 
     $this->logger->log('TOTP trusted devices cleared by ' . $this->getUser()->getUserIdentifier(), TotpLoggerInterface::LOG_TOTP_CLEAR_TD_BY_ADMIN, $user->getId());
-    $this->addFlash('info', $this->t('The trusted devices for user %user% have been deleted.', ['%user%'=>$user->getUserIdentifier()]));
+    $this->addFlash('info', $this->t('The trusted devices for user %user% have been deleted.', ['%user%' => $user->getUserIdentifier()]));
 
     return $this->redirectToRoute($this->homePath);
   }
@@ -211,7 +211,7 @@ class TotpController extends AbstractController
   }
 
   /**
-   * create an array of backup codes
+   * create an array of backup codes.
    */
   private function generateBackCodes(): array
   {

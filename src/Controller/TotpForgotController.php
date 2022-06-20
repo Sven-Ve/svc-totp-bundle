@@ -61,7 +61,6 @@ class TotpForgotController extends AbstractController
 
       $mailer->send($email);
       $this->addFlash('info', $this->t('OTP reset email sent, please check your inbox'));
-//      dd('Hier');
 
       return $this->redirectToRoute('app_logout');
     }

@@ -25,3 +25,8 @@
 ## Version 1.2.1
 *Sun, 12 Jun 2022 09:10:43 +0000*
 - improved testing
+
+
+## Version 1.3.0
+*Mon, 20 Jun 2022 20:09:13 +0000*
+- forget QR code added
