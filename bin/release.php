@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "1.3.0";
-$message = "forget QR code added";
+$version = "1.3.1";
+$message = "add missing translation";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

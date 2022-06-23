@@ -30,3 +30,8 @@
 ## Version 1.3.0
 *Mon, 20 Jun 2022 20:09:13 +0000*
 - forget QR code added
+
+
+## Version 1.3.1
+*Thu, 23 Jun 2022 21:13:06 +0000*
+- add missing translation
