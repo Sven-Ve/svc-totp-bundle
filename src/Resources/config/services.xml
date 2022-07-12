@@ -21,16 +21,6 @@
         <tag name="controller.service_arguments"/>
       </service>
 
-      <service id="svc_totp.easyadmin_controller" class="Svc\TotpBundle\Controller\TotpEaCrudController" public="true" autowire="true" autoconfigure="true" >
-        <call method="setContainer">
-          <argument type="service" id="Psr\Container\ContainerInterface"/>
-        </call>
-        <tag name="container.service_subscriber"/>
-        <tag name="controller.service_arguments"/>
-        <tag name="ea.crud_controller"/>
-      </service>
-      <service id="Svc\TotpBundle\Controller\TotpEaCrudController" alias="svc_totp.easyadmin_controller" />
-
       <service id="svc_totp.forgot_controller" class="Svc\TotpBundle\Controller\TotpForgotController" public="true" autowire="true" >
         <call method="setContainer">
           <argument type="service" id="Psr\Container\ContainerInterface"/>
