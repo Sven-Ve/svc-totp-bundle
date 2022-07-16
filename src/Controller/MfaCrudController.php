@@ -22,10 +22,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MfaCrudController extends AbstractCrudController
 {
-    public static function getEntityFqcn(): string
-    {
-        return User::class;
-    }
+  public static function getEntityFqcn(): string
+  {
+    return User::class;
+  }
 
   public function __construct(
     private readonly EntityManagerInterface $entityManager,
@@ -178,5 +178,4 @@ class MfaCrudController extends AbstractCrudController
 
     return $this->redirect($targetUrl);
   }
-
 }
