@@ -22,7 +22,7 @@ class LoggerTest extends TestCase
 
   public function testLogger()
   {
-    $logger = $this->container->get('svc_totp.service.logger');
+    $logger = $this->container->get('Svc\TotpBundle\Service\TotpLogger');
     $this->assertInstanceOf(TotpLogger::class, $logger);
 
     $this->assertTrue($logger->log('test', TotpLoggerInterface::LOG_TOTP_CLEAR_TD, 1));
@@ -33,7 +33,7 @@ class LoggerTest extends TestCase
 
   public function testDefaultLogger()
   {
-    $logger = $this->container->get('svc_totp.service.default_logger');
+    $logger = $this->container->get('Svc\TotpBundle\Service\TotpDefaultLogger');
     $this->assertInstanceOf(TotpDefaultLogger::class, $logger);
 
     $this->assertTrue($logger->log('test', TotpLoggerInterface::LOG_TOTP_CLEAR_TD, 1));

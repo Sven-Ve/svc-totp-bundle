@@ -6,6 +6,10 @@
 [![Total Downloads](https://poser.pugx.org/svc/totp-bundle/downloads)](https://packagist.org/packages/svc/totp-bundle)
 [![PHP Version Require](http://poser.pugx.org/svc/totp-bundle/require/php)](https://packagist.org/packages/svc/totp-bundle)
 
+:warning: **Attention:** <br/>
+From version 4.0 the bundle works only with Symfony >=6.1, because the new Bundle Configuration System is used.<br/>
+Please use version 1.x for older Symfony installations.<br/>
+*The version jump comes from the synchronization of all svc bundle versions.*
 
 # Userinterface for the excellent SchebTwoFactorBundle
 

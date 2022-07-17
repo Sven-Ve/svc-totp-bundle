@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "1.3.1";
-$message = "add missing translation";
+$version = "4.0.0";
+$message = "build with Symfony 6.1 bundle features, runs only with symfony 6.1";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

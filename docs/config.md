@@ -7,7 +7,7 @@ add a new file config/routes/svc_totp.yaml
 ```yaml
 #config/routes/svc_totp.yaml
 _svc_totp:
-    resource: '@SvcTotpBundle/src/Resources/config/routes.xml'
+    resource: '@SvcTotpBundle/config/routes.yaml'
     prefix: /mfa/{_locale}
 ```
 

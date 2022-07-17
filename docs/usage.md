@@ -22,7 +22,7 @@ Example:
   </a>
 ```
 
-### Disable 2FA for other users
+### Disable 2FA for other users (if you do not want to use the admin interface)
 
 call the "svc_totp_oth_disable" path in your Twig template or controller and set the parameter id to the current user id <br/>
 Example:
@@ -41,7 +41,7 @@ Example:
   </a>
 ```
 
-### Clear trusted devices for current/all users
+### Clear trusted devices for current/all users (if you do not want to use the admin interface)
 
 call the "svc_totp_cleartd" path in your Twig template or controller. <br/>
 Set the "allUsers" parameter to true if you want to delete trusted devices for all users (requires ROLE_ADMIN), otherwise (default) only devices for the current user will be deleted.<br/>
@@ -54,7 +54,7 @@ Example:
 </a>
 ```
 
-### Clear trusted devices for other users
+### Clear trusted devices for other users (if you do not want to use the admin interface)
 
 call the "svc_totp_clear_oth_td" path in your Twig template or controller and set the parameter id to the current user id.<br/>
 Example:
@@ -74,4 +74,26 @@ Example:<br/>
 {% if is_granted("ROLE_ADMIN") %}
   <a href="{{ path('svc_totp_user_admin', {'id' : user.id}) }}">{% trans %}2FA User admin{% endtrans %}<a/>
 {% endif %}
+```
+
+### Call an admin interface in EasyAdmin
+
+If you have EasyAdmin installed, you can use the 2FA admin interface there
+
+Example:<br/>
+```php
+namespace App\Controller\Admin;
+
+use Svc\TotpBundle\Controller\MfaCrudController;
+
+class DashboardController extends AbstractDashboardController
+{
+  ...
+  public function configureMenuItems(): iterable
+  {
+    ...
+    yield MenuItem::linkToCrud('MFA', 'fas fa-users', User::class)
+      ->setController(MfaCrudController::class);
+  }
+  ...
 ```

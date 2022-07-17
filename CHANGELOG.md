@@ -35,3 +35,8 @@
 ## Version 1.3.1
 *Thu, 23 Jun 2022 21:13:06 +0000*
 - add missing translation
+
+
+## Version 4.0.0
+*Sun, 17 Jul 2022 13:57:00 +0000*
+- build with Symfony 6.1 bundle features, runs only with symfony 6.1

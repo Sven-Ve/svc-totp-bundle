@@ -34,7 +34,7 @@ in the `config/bundles.php` file of your project:
 
 return [
     // ...
-    Svc\UtilBundle\SvcTotpBundle::class => ['all' => true],
+    Svc\TotpBundle\SvcTotpBundle::class => ['all' => true],
 ];
 ```
 
