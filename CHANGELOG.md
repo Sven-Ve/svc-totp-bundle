@@ -40,3 +40,8 @@
 ## Version 4.0.0
 *Sun, 17 Jul 2022 13:57:00 +0000*
 - build with Symfony 6.1 bundle features, runs only with symfony 6.1
+
+
+## Version 4.0.1
+*Thu, 21 Jul 2022 18:41:57 +0000*
+- licence year update
