@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Svc\TotpBundle\Service;
 
-use ArgumentCountError;
-use Exception;
-
 class TotpLogger
 {
   public function __construct(private readonly TotpLoggerInterface $logger, private readonly ?string $env)
@@ -19,7 +16,7 @@ class TotpLogger
       $this->logger->log($text, $logType, $userId);
 
       return true;
-    } catch (ArgumentCountError|Exception $e) {
+    } catch (\ArgumentCountError|\Exception $e) {
       if ($this->env === 'dev') {
         throw $e;
       }

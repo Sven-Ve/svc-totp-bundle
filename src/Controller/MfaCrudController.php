@@ -165,7 +165,7 @@ class MfaCrudController extends AbstractCrudController
   {
     foreach ($userRep->findBy(['isTotpAuthenticationEnabled' => true]) as $user) {
       $user->clearTrustedToken();
-//      $this->logger->log('TOTP trusted devices (all) cleared by ' . $this->getUser()->getUserIdentifier(), TotpLoggerInterface::LOG_TOTP_CLEAR_TD_BY_ADMIN, $user->getId());
+      //      $this->logger->log('TOTP trusted devices (all) cleared by ' . $this->getUser()->getUserIdentifier(), TotpLoggerInterface::LOG_TOTP_CLEAR_TD_BY_ADMIN, $user->getId());
     }
     $this->entityManager->flush();
 

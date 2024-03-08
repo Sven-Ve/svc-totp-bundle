@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "5.0.2";
-$message = "ready for symfony 6.4 and 7 - fixed tests";
+$version = "5.1.0";
+$message = "runs with doctrin/orm ^3 too";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);
