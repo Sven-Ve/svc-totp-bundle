@@ -3,6 +3,7 @@
 namespace Svc\TotpBundle\Tests;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use Endroid\QrCodeBundle\EndroidQrCodeBundle;
 use Svc\TotpBundle\SvcTotpBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -21,6 +22,7 @@ class SvcTotpTestingKernel extends Kernel
       new FrameworkBundle(),
       new DoctrineBundle(),
       new SymfonyCastsVerifyEmailBundle(),
+      new EndroidQrCodeBundle(),
     ];
   }
 
@@ -60,12 +62,6 @@ class SvcTotpTestingKernel extends Kernel
         ],
       ]);
 
-      /*
-      $container->register('kernel', static::class)->setPublic(true);
-
-      $kernelDefinition = $container->getDefinition('kernel');
-      $kernelDefinition->addTag('routing.route_loader');
-      */
     });
   }
 }

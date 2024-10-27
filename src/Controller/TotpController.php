@@ -5,7 +5,7 @@ namespace Svc\TotpBundle\Controller;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\Builder\BuilderInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInterface;
 use Svc\TotpBundle\Service\TotpLogger;
 use Svc\TotpBundle\Service\TotpLoggerInterface;
@@ -17,9 +17,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TotpController extends AbstractController
 {
-  public function __construct(private readonly string $homePath, private readonly bool $enableForgot2FA, private readonly TotpLogger $logger, private readonly EntityManagerInterface $entityManager, private readonly TranslatorInterface $translator)
-  {
-  }
+  public function __construct(
+    private readonly string $homePath,
+    private readonly bool $enableForgot2FA,
+    private readonly TotpLogger $logger,
+    private readonly EntityManagerInterface $entityManager,
+    private readonly TranslatorInterface $translator,
+    private BuilderInterface $defaultQrCodeBuilder
+  ) {}
 
   /**
    * manage the 2fa (enable, disable, backup codes).
@@ -63,12 +68,14 @@ class TotpController extends AbstractController
       return new Response();
     }
 
-    $result = Builder::create()
+    $result = $this->defaultQrCodeBuilder->build(
       /* @phpstan-ignore-next-line */
-      ->data($totpAuthenticator->getQRContent($user))
-      ->size(200)
-      ->margin(0)
-      ->build();
+      data: $totpAuthenticator->getQRContent($user),
+      /* @phpstan-ignore-next-line */
+      size: 200,
+      /* @phpstan-ignore-next-line */
+      margin: 0,
+    );
 
     return new Response($result->getString(), 200, ['Content-Type' => 'image/png']);
   }

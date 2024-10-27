@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "5.1.0";
-$message = "runs with doctrin/orm ^3 too";
+$version = "6.0.0";
+$message = "runs (only) with endroid/qr-code-bundle >= 6";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

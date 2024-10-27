@@ -13,7 +13,7 @@
         "php": "^8.2",
         "doctrine/doctrine-bundle": "^2.10",
         "doctrine/orm": "^2.11 | ^3",
-        "endroid/qr-code-bundle": "^5.0",
+        "endroid/qr-code-bundle": "^6",
         "scheb/2fa-backup-code": "^7.0",
         "scheb/2fa-bundle": "^7.0",
         "scheb/2fa-totp": "^7.0",
@@ -36,7 +36,7 @@
     },
     "require-dev": {
         "phpstan/phpstan": "^1.10",
-        "phpunit/phpunit": "^10.5"
+        "phpunit/phpunit": "^10.5 | ^11"
     },
     "suggest": {
         "easycorp/easyadmin-bundle": "If the EasyAdmin 2FA management page is to be used"

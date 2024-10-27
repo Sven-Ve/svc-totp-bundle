@@ -70,3 +70,8 @@
 ## Version 5.1.0
 *Fri, 08 Mar 2024 20:45:06 +0000*
 - runs with doctrin/orm ^3 too
+
+
+## Version 6.0.0
+*Sun, 27 Oct 2024 15:17:47 +0000*
+- runs (only) with endroid/qr-code-bundle >= 6
