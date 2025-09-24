@@ -75,3 +75,8 @@
 ## Version 6.0.0
 *Sun, 27 Oct 2024 15:17:47 +0000*
 - runs (only) with endroid/qr-code-bundle >= 6
+
+
+## Version 6.1.0
+*Wed, 24 Sep 2025 20:06:48 +0000*
+- breaking change, now it use php as route configuration. You have to import the routes in your project manually. See docs for more information.

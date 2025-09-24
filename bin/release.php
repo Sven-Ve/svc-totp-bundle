@@ -10,8 +10,8 @@
  * file that was distributed with this source code.
  */
 
-$version = '6.0.0';
-$message = 'runs (only) with endroid/qr-code-bundle >= 6';
+$version = '6.1.0';
+$message = 'breaking change, now it use php as route configuration. You have to import the routes in your project manually. See docs for more information.';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);

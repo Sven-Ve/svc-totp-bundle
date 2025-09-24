@@ -3,7 +3,8 @@
     "allow": [
       "Bash(vendor/bin/phpunit:*)",
       "Bash(composer test:*)",
-      "Bash(composer:*)"
+      "Bash(composer:*)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []
