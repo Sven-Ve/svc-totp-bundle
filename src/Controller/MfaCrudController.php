@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the SvcTotp bundle.
+ *
+ * (c) 2025 Sven Vetter <dev@sv-systems.com>.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Svc\TotpBundle\Controller;
 
 use App\Entity\User;
@@ -22,160 +31,161 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MfaCrudController extends AbstractCrudController
 {
-  public static function getEntityFqcn(): string
-  {
-    return User::class;
-  }
+    public static function getEntityFqcn(): string
+    {
+        return User::class;
+    }
 
-  public function __construct(
-    private readonly EntityManagerInterface $entityManager,
-    private readonly AdminUrlGenerator $adminUrlGenerator)
-  {
-  }
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+        private readonly AdminUrlGenerator $adminUrlGenerator,
+    ) {
+    }
 
-  /**
-   * FIELDS.
-   */
-  public function configureFields(string $pageName): iterable
-  {
-    yield IdField::new('id')
-      ->hideOnForm();
-    yield EmailField::new('email');
-    yield BooleanField::new('isTotpAuthenticationEnabled')
-      ->renderAsSwitch(false)
-      ->setLabel('MFA enabled');
-    yield BooleanField::new('isTotpSecret')
-      ->renderAsSwitch(false);
-    yield IntegerField::new('getTrustedTokenVersion')
-      ->setLabel('Trusted Token Version');
-  }
+    /**
+     * FIELDS.
+     */
+    public function configureFields(string $pageName): iterable
+    {
+        yield IdField::new('id')
+          ->hideOnForm();
+        yield EmailField::new('email');
+        yield BooleanField::new('isTotpAuthenticationEnabled')
+          ->renderAsSwitch(false)
+          ->setLabel('MFA enabled');
+        yield BooleanField::new('isTotpSecret')
+          ->renderAsSwitch(false);
+        yield IntegerField::new('getTrustedTokenVersion')
+          ->setLabel('Trusted Token Version');
+    }
 
-  /**
-   * FILTER.
-   */
-  public function configureFilters(Filters $filters): Filters
-  {
-    return parent::configureFilters($filters)
-      ->add(BooleanFilter::new('isTotpAuthenticationEnabled')
+    /**
+     * FILTER.
+     */
+    public function configureFilters(Filters $filters): Filters
+    {
+        return parent::configureFilters($filters)
+          ->add(
+              BooleanFilter::new('isTotpAuthenticationEnabled')
         ->setLabel('MFA enabled')
-      );
-  }
-
-  public function configureCrud(Crud $crud): Crud
-  {
-    return parent::configureCrud($crud)
-      ->setPageTitle(Crud::PAGE_INDEX, 'MFA')
-      ->showEntityActionsInlined()
-      ->setHelp(Crud::PAGE_INDEX, 'Hier help');
-  }
-
-  /**
-   * ACTIONS.
-   */
-  public function configureActions(Actions $actions): Actions
-  {
-    $disableMfaAction = Action::new('disableMFA')
-      ->linkToCrudAction('disableMFA')
-      ->setCssClass('btn btn-sm btn-danger')
-      ->setLabel('Disable MFA')
-      ->displayIf(static function (User $user) {
-        return $user->isTotpAuthenticationEnabled();
-      });
-    $resetMfaAction = Action::new('resetMFA')
-      ->linkToCrudAction('resetMFA')
-      ->setLabel('Reset MFA')
-      ->setCssClass('btn btn-sm btn-warning')
-      ->displayIf(static function (User $user) {
-        return $user->isTotpAuthenticationEnabled();
-      });
-
-    $deleteTdAction = Action::new('deleteTd')
-      ->linkToCrudAction('deleteTd')
-      ->setLabel('Clear Trusted Devices')
-      ->setCssClass('btn btn-sm btn-info')
-      ->displayIf(static function (User $user) {
-        return $user->isTotpAuthenticationEnabled();
-      });
-
-    $clearAllTdAction = Action::new('deleteAllTd')
-      ->linkToCrudAction('deleteAllTd')
-      ->setLabel('Clear Trusted Devices (all)')
-      ->setCssClass('btn btn-sm btn-primary')
-      ->createAsGlobalAction();
-
-    return parent::configureActions($actions)
-      ->add(Crud::PAGE_INDEX, $disableMfaAction)
-      ->add(Crud::PAGE_INDEX, $resetMfaAction)
-      ->add(Crud::PAGE_INDEX, $deleteTdAction)
-      ->add(Crud::PAGE_INDEX, $clearAllTdAction)
-      ->disable(Action::NEW)
-      ->disable(Action::DETAIL)
-      ->disable(Action::EDIT)
-      ->disable(Action::DELETE)
-      ->reorder(Crud::PAGE_INDEX, ['disableMFA', 'resetMFA', 'deleteTd']);
-  }
-
-  public function disableMFA(AdminContext $adminContext): Response
-  {
-    return $this->handleDisableRestMFA(false, $adminContext);
-  }
-
-  public function resetMFA(AdminContext $adminContext): Response
-  {
-    return $this->handleDisableRestMFA(true, $adminContext);
-  }
-
-  public function handleDisableRestMFA(bool $reset, AdminContext $adminContext): Response
-  {
-    $user = $adminContext->getEntity()->getInstance();
-    if (!$user instanceof User) {
-      throw new \LogicException('Entity is missing or not a User');
+          );
     }
-    $user->disableTotpAuthentication($reset);
-    $this->entityManager->flush();
 
-    $targetUrl = $this->adminUrlGenerator
-      ->setController(self::class)
-      ->setAction(Crud::PAGE_INDEX)
-      ->generateUrl();
-
-    return $this->redirect($targetUrl);
-  }
-
-  public function deleteTd(AdminContext $adminContext): Response
-  {
-    $user = $adminContext->getEntity()->getInstance();
-    if (!$user instanceof User) {
-      throw new \LogicException('Entity is missing or not a User');
+    public function configureCrud(Crud $crud): Crud
+    {
+        return parent::configureCrud($crud)
+          ->setPageTitle(Crud::PAGE_INDEX, 'MFA')
+          ->showEntityActionsInlined()
+          ->setHelp(Crud::PAGE_INDEX, 'Hier help');
     }
-    $user->clearTrustedToken();
-    $this->entityManager->flush();
 
-    $this->addFlash('info', 'The trusted devices for user ' . $user->getUserIdentifier() . ' have been deleted. ');
+    /**
+     * ACTIONS.
+     */
+    public function configureActions(Actions $actions): Actions
+    {
+        $disableMfaAction = Action::new('disableMFA')
+          ->linkToCrudAction('disableMFA')
+          ->setCssClass('btn btn-sm btn-danger')
+          ->setLabel('Disable MFA')
+          ->displayIf(static function (User $user) {
+              return $user->isTotpAuthenticationEnabled();
+          });
+        $resetMfaAction = Action::new('resetMFA')
+          ->linkToCrudAction('resetMFA')
+          ->setLabel('Reset MFA')
+          ->setCssClass('btn btn-sm btn-warning')
+          ->displayIf(static function (User $user) {
+              return $user->isTotpAuthenticationEnabled();
+          });
 
-    $targetUrl = $this->adminUrlGenerator
-      ->setController(self::class)
-      ->setAction(Crud::PAGE_INDEX)
-      ->generateUrl();
+        $deleteTdAction = Action::new('deleteTd')
+          ->linkToCrudAction('deleteTd')
+          ->setLabel('Clear Trusted Devices')
+          ->setCssClass('btn btn-sm btn-info')
+          ->displayIf(static function (User $user) {
+              return $user->isTotpAuthenticationEnabled();
+          });
 
-    return $this->redirect($targetUrl);
-  }
+        $clearAllTdAction = Action::new('deleteAllTd')
+          ->linkToCrudAction('deleteAllTd')
+          ->setLabel('Clear Trusted Devices (all)')
+          ->setCssClass('btn btn-sm btn-primary')
+          ->createAsGlobalAction();
 
-  public function deleteAllTd(UserRepository $userRep): Response
-  {
-    foreach ($userRep->findBy(['isTotpAuthenticationEnabled' => true]) as $user) {
-      $user->clearTrustedToken();
-      //      $this->logger->log('TOTP trusted devices (all) cleared by ' . $this->getUser()->getUserIdentifier(), TotpLoggerInterface::LOG_TOTP_CLEAR_TD_BY_ADMIN, $user->getId());
+        return parent::configureActions($actions)
+          ->add(Crud::PAGE_INDEX, $disableMfaAction)
+          ->add(Crud::PAGE_INDEX, $resetMfaAction)
+          ->add(Crud::PAGE_INDEX, $deleteTdAction)
+          ->add(Crud::PAGE_INDEX, $clearAllTdAction)
+          ->disable(Action::NEW)
+          ->disable(Action::DETAIL)
+          ->disable(Action::EDIT)
+          ->disable(Action::DELETE)
+          ->reorder(Crud::PAGE_INDEX, ['disableMFA', 'resetMFA', 'deleteTd']);
     }
-    $this->entityManager->flush();
 
-    $this->addFlash('info', 'All trusted devices have been deleted. ');
+    public function disableMFA(AdminContext $adminContext): Response
+    {
+        return $this->handleDisableRestMFA(false, $adminContext);
+    }
 
-    $targetUrl = $this->adminUrlGenerator
-      ->setController(self::class)
-      ->setAction(Crud::PAGE_INDEX)
-      ->generateUrl();
+    public function resetMFA(AdminContext $adminContext): Response
+    {
+        return $this->handleDisableRestMFA(true, $adminContext);
+    }
 
-    return $this->redirect($targetUrl);
-  }
+    public function handleDisableRestMFA(bool $reset, AdminContext $adminContext): Response
+    {
+        $user = $adminContext->getEntity()->getInstance();
+        if (!$user instanceof User) {
+            throw new \LogicException('Entity is missing or not a User');
+        }
+        $user->disableTotpAuthentication($reset);
+        $this->entityManager->flush();
+
+        $targetUrl = $this->adminUrlGenerator
+          ->setController(self::class)
+          ->setAction(Crud::PAGE_INDEX)
+          ->generateUrl();
+
+        return $this->redirect($targetUrl);
+    }
+
+    public function deleteTd(AdminContext $adminContext): Response
+    {
+        $user = $adminContext->getEntity()->getInstance();
+        if (!$user instanceof User) {
+            throw new \LogicException('Entity is missing or not a User');
+        }
+        $user->clearTrustedToken();
+        $this->entityManager->flush();
+
+        $this->addFlash('info', 'The trusted devices for user ' . $user->getUserIdentifier() . ' have been deleted. ');
+
+        $targetUrl = $this->adminUrlGenerator
+          ->setController(self::class)
+          ->setAction(Crud::PAGE_INDEX)
+          ->generateUrl();
+
+        return $this->redirect($targetUrl);
+    }
+
+    public function deleteAllTd(UserRepository $userRep): Response
+    {
+        foreach ($userRep->findBy(['isTotpAuthenticationEnabled' => true]) as $user) {
+            $user->clearTrustedToken();
+            //      $this->logger->log('TOTP trusted devices (all) cleared by ' . $this->getUser()->getUserIdentifier(), TotpLoggerInterface::LOG_TOTP_CLEAR_TD_BY_ADMIN, $user->getId());
+        }
+        $this->entityManager->flush();
+
+        $this->addFlash('info', 'All trusted devices have been deleted. ');
+
+        $targetUrl = $this->adminUrlGenerator
+          ->setController(self::class)
+          ->setAction(Crud::PAGE_INDEX)
+          ->generateUrl();
+
+        return $this->redirect($targetUrl);
+    }
 }
