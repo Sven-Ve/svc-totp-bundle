@@ -69,6 +69,8 @@ Bundle configuration in `src/SvcTotpBundle.php` supports:
 - `loggingClass` - Custom logging class
 - `enableForgot2FA` - Enable/disable forgot 2FA functionality
 
+Services are configured in `config/services.php` and routes in `config/routes.php` using the modern PHP configuration format.
+
 ### Dependencies Integration
 - Integrates with SchebTwoFactorBundle for core 2FA functionality
 - Uses Endroid QR Code Bundle for QR code generation
@@ -90,3 +92,4 @@ Bundle configuration in `src/SvcTotpBundle.php` supports:
 - **Static Analysis**: Code must pass `composer phpstan` (level 5 analysis)
 - **PHPStan Exclusions**: EasyAdmin controllers are excluded from static analysis
 - **Test Coverage**: New features require comprehensive unit and integration tests
+- CHANGELOG.md wird durch bin/release.php automatisch aktualisiert, also muessen aenderungen in bin/release.php gemacht werden

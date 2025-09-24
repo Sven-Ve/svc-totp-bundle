@@ -27,15 +27,19 @@ class SvcTotpBundle extends AbstractBundle
     {
         $definition->rootNode()
           ->children()
-            ->scalarNode('home_path')->cannotBeEmpty()->defaultValue('home')->info('Default Homepage path for redirecting after actions')->end()
-            ->scalarNode('loggingClass')->defaultNull()->info('Class to call for logging function. See doc for more information')->end()
+            ->stringNode('home_path')->cannotBeEmpty()->defaultValue('home')->info('Default Homepage path for redirecting after actions')->end()
+            ->stringNode('loggingClass')
+                ->defaultNull()
+                ->info('Class to call for logging function. See doc for more information')
+                ->example('App\Service\TotpLogger')
+            ->end()
             ->booleanNode('enableForgot2FA')->defaultFalse()->info('Is "Forgot 2FA" functionality enabled?')->end()
           ->end();
     }
 
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
-        $container->import('../config/services.yaml');
+        $container->import('../config/services.php');
 
         $container->services()
           ->get('Svc\TotpBundle\Controller\TotpController')

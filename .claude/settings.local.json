@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(vendor/bin/phpunit:*)"
+      "Bash(vendor/bin/phpunit:*)",
+      "Bash(composer test:*)",
+      "Bash(composer:*)"
     ],
     "deny": [],
     "ask": []
