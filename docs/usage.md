@@ -1,5 +1,9 @@
 # Usage
 
+## Breaking Changes
+
+**⚠️ As of version 6.2.0**: The `MfaCrudController` for EasyAdminBundle integration has been removed. If you were using the EasyAdmin integration, please use the built-in admin interface (`svc_totp_user_admin` route) or implement your own admin functionality using the existing controller methods.
+
 ## Controller
 
 ### Enable/Disable 2FA
@@ -76,24 +80,3 @@ Example:<br/>
 {% endif %}
 ```
 
-### Call an admin interface in EasyAdmin
-
-If you have EasyAdmin installed, you can use the 2FA admin interface there
-
-Example:<br/>
-```php
-namespace App\Controller\Admin;
-
-use Svc\TotpBundle\Controller\MfaCrudController;
-
-class DashboardController extends AbstractDashboardController
-{
-  ...
-  public function configureMenuItems(): iterable
-  {
-    ...
-    yield MenuItem::linkToCrud('MFA', 'fas fa-users', User::class)
-      ->setController(MfaCrudController::class);
-  }
-  ...
-```

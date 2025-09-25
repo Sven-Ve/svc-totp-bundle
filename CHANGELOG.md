@@ -80,3 +80,8 @@
 ## Version 6.1.0
 *Wed, 24 Sep 2025 20:06:48 +0000*
 - breaking change, now it use php as route configuration. You have to import the routes in your project manually. See docs for more information.
+
+
+## Version 6.2.0
+*Thu, 25 Sep 2025 19:09:14 +0000*
+- BREAKING: Removed MfaCrudController and EasyAdminBundle integration. Use built-in admin interface (svc_totp_user_admin route) instead.

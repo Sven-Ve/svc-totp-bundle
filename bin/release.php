@@ -10,8 +10,8 @@
  * file that was distributed with this source code.
  */
 
-$version = '6.1.0';
-$message = 'breaking change, now it use php as route configuration. You have to import the routes in your project manually. See docs for more information.';
+$version = '6.2.0';
+$message = 'BREAKING: Removed MfaCrudController and EasyAdminBundle integration. Use built-in admin interface (svc_totp_user_admin route) instead.';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);

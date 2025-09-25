@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Svc\TotpBundle\Controller\MfaCrudController;
 use Svc\TotpBundle\Controller\TotpAdminController;
 use Svc\TotpBundle\Controller\TotpController;
 use Svc\TotpBundle\Controller\TotpForgotController;
@@ -39,5 +38,4 @@ return static function (ContainerConfigurator $container): void {
     $services->set(TotpDefaultLogger::class)
         ->public();
 
-    $services->set(MfaCrudController::class);
 };

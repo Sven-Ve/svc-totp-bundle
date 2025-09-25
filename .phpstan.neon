@@ -14,5 +14,4 @@ parameters:
     - '#Parameter \$user of method Svc\\TotpBundle\\.*\(\) has invalid type App\\Entity\\User#'
     - '#Parameter \$userRep of method Svc\\TotpBundle\\.*\(\) has invalid type App\\Repository\\UserRepository#'
   excludePaths:
-    - 'src/Controller/MfaCrudController.php'
     - 'src/Service/_TotpTrait.php'

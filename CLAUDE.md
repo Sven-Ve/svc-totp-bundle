@@ -55,7 +55,6 @@ composer validate --strict
   - `TotpController` - Main 2FA management (enable/disable, QR codes, backup codes)
   - `TotpAdminController` - Admin functions for managing user 2FA
   - `TotpForgotController` - "Forgot 2FA" functionality
-  - `MfaCrudController` - EasyAdmin integration (excluded from PHPStan)
 
 - **Services**:
   - `TotpLogger` - Logging service with configurable backend
@@ -74,7 +73,6 @@ Services are configured in `config/services.php` and routes in `config/routes.ph
 ### Dependencies Integration
 - Integrates with SchebTwoFactorBundle for core 2FA functionality
 - Uses Endroid QR Code Bundle for QR code generation
-- Optionally integrates with EasyAdminBundle for admin interface
 - Uses Doctrine ORM for data persistence
 
 ### Testing
@@ -90,6 +88,5 @@ Services are configured in `config/services.php` and routes in `config/routes.ph
 ### Code Quality Requirements
 - **Testing**: All changes must pass `composer test` (PHPUnit with --testdox)
 - **Static Analysis**: Code must pass `composer phpstan` (level 5 analysis)
-- **PHPStan Exclusions**: EasyAdmin controllers are excluded from static analysis
 - **Test Coverage**: New features require comprehensive unit and integration tests
 - CHANGELOG.md wird durch bin/release.php automatisch aktualisiert, also muessen aenderungen in bin/release.php gemacht werden
