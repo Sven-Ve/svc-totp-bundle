@@ -10,8 +10,8 @@
  * file that was distributed with this source code.
  */
 
-$version = '6.2.0';
-$message = 'BREAKING: Removed MfaCrudController and EasyAdminBundle integration. Use built-in admin interface (svc_totp_user_admin route) instead.';
+$version = '6.3.0';
+$message = 'BREAKING: Upgraded TOTP algorithm from SHA-1 to SHA-256 for enhanced security. Users must re-setup their 2FA codes. Fixed route configuration bug.';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);

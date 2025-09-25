@@ -36,7 +36,7 @@ return static function (RoutingConfigurator $routes): void {
     $routes->add('svc_totp_clear_oth_td', '/clearotd/{id}')
         ->controller([TotpController::class, 'clearOtherTrustedDevice']);
 
-    $routes->add('svc_totp_user_admin', '//admin/users/')
+    $routes->add('svc_totp_user_admin', '/admin/users/')
         ->controller([TotpAdminController::class, 'index']);
 
     $routes->add('svc_totp_forgot', '/forgot/')

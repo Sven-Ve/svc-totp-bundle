@@ -2,6 +2,8 @@
 
 ## Breaking Changes
 
+**⚠️ As of version 6.3.0**: TOTP algorithm upgraded from SHA-1 to SHA-256 for enhanced security. **All existing users must re-setup their 2FA codes** as SHA-256 generates different TOTP codes than SHA-1. This security upgrade is necessary to replace the cryptographically weak SHA-1 algorithm.
+
 **⚠️ As of version 6.2.0**: The `MfaCrudController` for EasyAdminBundle integration has been removed. If you were using the EasyAdmin integration, please use the built-in admin interface (`svc_totp_user_admin` route) or implement your own admin functionality using the existing controller methods.
 
 ## Controller

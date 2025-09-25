@@ -85,3 +85,8 @@
 ## Version 6.2.0
 *Thu, 25 Sep 2025 19:09:14 +0000*
 - BREAKING: Removed MfaCrudController and EasyAdminBundle integration. Use built-in admin interface (svc_totp_user_admin route) instead.
+
+
+## Version 6.3.0
+*Thu, 25 Sep 2025 19:25:03 +0000*
+- BREAKING: Upgraded TOTP algorithm from SHA-1 to SHA-256 for enhanced security. Users must re-setup their 2FA codes. Fixed route configuration bug.

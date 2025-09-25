@@ -47,7 +47,8 @@ trait _TotpTrait
     public function getTotpAuthenticationConfiguration(): TotpConfigurationInterface
     {
         // You could persist the other configuration options in the user entity to make it individual per user.
-        return new TotpConfiguration($this->totpSecret, TotpConfiguration::ALGORITHM_SHA1, 30, 6);
+        return new TotpConfiguration($this->totpSecret, TotpConfiguration::ALGORITHM_SHA256, 30, 6);
+//        return new TotpConfiguration($this->totpSecret, TotpConfiguration::ALGORITHM_SHA1, 30, 6);
     }
 
     /**
