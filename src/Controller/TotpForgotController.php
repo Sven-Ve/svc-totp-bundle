@@ -27,7 +27,7 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 class TotpForgotController extends AbstractController
 {
-    public function __construct(private readonly string $homePath, private readonly bool $enableForgot2FA, private readonly TotpLogger $logger, private readonly EntityManagerInterface $entityManager, private readonly VerifyEmailHelperInterface $verifyEmailHelper, private readonly TranslatorInterface $translator)
+    public function __construct(private readonly string $homePath, private readonly bool $enableForgot2FA, private readonly TotpLogger $logger, private readonly EntityManagerInterface $entityManager, private readonly VerifyEmailHelperInterface $verifyEmailHelper, private readonly TranslatorInterface $translator, private readonly ?string $fromEmail)
     {
     }
 
@@ -57,7 +57,7 @@ class TotpForgotController extends AbstractController
 
             // prepare email
             $email = new TemplatedEmail();
-            $email->from('technik@sv-systems.com');
+            $email->from($this->fromEmail);
             $email->to($user->getEmail());
             $email->subject($this->t('Reset 2FA'));
             $email->priority(Email::PRIORITY_HIGH);

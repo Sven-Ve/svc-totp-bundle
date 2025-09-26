@@ -34,6 +34,9 @@ svc_totp:
 
     # Class to call for logging function. See documentation (capture logging) for more information
     loggingClass:         ~
+
+    # Email address to use as sender for 2FA reset emails (required if enableForgot2FA is true)
+    fromEmail:            'no-reply@example.com'
 ```
 
 ## Security configuration
@@ -117,7 +120,14 @@ svc_totp:
   ...
   # Is "Forgot 2FA" functionality enabled?
   enableForgot2FA:      true
+
+  # Email address to use as sender for 2FA reset emails (required when enableForgot2FA is true)
+  fromEmail:            'no-reply@yourdomain.com'
 ```
+
+**Important:** When enabling the "Forgot 2FA" functionality, you **must** configure the `fromEmail` parameter to specify which email address should be used as the sender for 2FA reset emails.
+
+**Note:** The bundle will validate this configuration at compile time. If you set `enableForgot2FA: true` without providing a `fromEmail` address, Symfony will throw an `InvalidArgumentException` during container compilation, preventing the application from starting with an invalid configuration.
 
 and add the path to the reset method to security.yaml right after the two other 2FA paths
 ```yaml

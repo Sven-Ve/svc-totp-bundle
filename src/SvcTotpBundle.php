@@ -34,11 +34,24 @@ class SvcTotpBundle extends AbstractBundle
                 ->example('App\Service\TotpLogger')
             ->end()
             ->booleanNode('enableForgot2FA')->defaultFalse()->info('Is "Forgot 2FA" functionality enabled?')->end()
+            ->stringNode('fromEmail')
+                ->defaultNull()
+                ->info('Email address to use as sender for 2FA reset emails')
+                ->example('no-reply@example.com')
+            ->end()
           ->end();
     }
 
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
+        // Validate configuration at compile time
+        if ($config['enableForgot2FA'] && empty($config['fromEmail'])) {
+            throw new \InvalidArgumentException(
+                'The "fromEmail" configuration parameter is required when "enableForgot2FA" is set to true. ' .
+                'Please configure svc_totp.fromEmail in your bundle configuration (e.g., "no-reply@example.com").'
+            );
+        }
+
         $container->import('../config/services.php');
 
         $container->services()
@@ -49,7 +62,8 @@ class SvcTotpBundle extends AbstractBundle
         $container->services()
           ->get('Svc\TotpBundle\Controller\TotpForgotController')
           ->arg(0, $config['home_path'])
-          ->arg(1, $config['enableForgot2FA']);
+          ->arg(1, $config['enableForgot2FA'])
+          ->arg('$fromEmail', $config['fromEmail']);
 
         if (array_key_exists('loggingClass', $config) and null !== $config['loggingClass']) {
             $builder->setAlias('Svc\TotpBundle\Service\TotpDefaultLogger', $config['loggingClass']);

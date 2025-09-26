@@ -37,6 +37,9 @@ vendor/bin/phpstan analyse src/ --level 5 -c .phpstan.neon
 /opt/homebrew/bin/php-cs-fixer fix
 # or check without fixing
 /opt/homebrew/bin/php-cs-fixer fix --dry-run --diff
+
+# Run all quality checks together (useful before committing)
+composer phpstan && composer test && /opt/homebrew/bin/php-cs-fixer fix --dry-run --diff
 ```
 
 ### Dependency Management
@@ -67,6 +70,7 @@ Bundle configuration in `src/SvcTotpBundle.php` supports:
 - `home_path` - Homepage path for redirects (default: 'home')
 - `loggingClass` - Custom logging class
 - `enableForgot2FA` - Enable/disable forgot 2FA functionality
+- `fromEmail` - Email address to use as sender for 2FA reset emails (default: null)
 
 Services are configured in `config/services.php` and routes in `config/routes.php` using the modern PHP configuration format.
 
@@ -88,5 +92,17 @@ Services are configured in `config/services.php` and routes in `config/routes.ph
 ### Code Quality Requirements
 - **Testing**: All changes must pass `composer test` (PHPUnit with --testdox)
 - **Static Analysis**: Code must pass `composer phpstan` (level 5 analysis)
+- **Code Formatting**: Code must pass `/opt/homebrew/bin/php-cs-fixer fix --dry-run --diff`
 - **Test Coverage**: New features require comprehensive unit and integration tests
-- CHANGELOG.md wird durch bin/release.php automatisch aktualisiert, also muessen aenderungen in bin/release.php gemacht werden
+- **Release Process**: CHANGELOG.md is automatically updated via `bin/release.php` - edit that file for changelog entries
+
+### Release Management
+```bash
+# Release process (automated via bin/release.php)
+# 1. Updates version and message in bin/release.php
+# 2. Runs phpstan and tests automatically
+# 3. Updates CHANGELOG.md with version and message
+# 4. Creates git commit and tag
+# 5. Pushes to origin
+php bin/release.php
+```
