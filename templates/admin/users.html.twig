@@ -29,11 +29,11 @@
             <td>{{ user.getTrustedTokenVersion }}</td>
             <td>
               {% if user.isTotpAuthenticationEnabled and is_granted("ROLE_ADMIN") and user.id != app.user.id %}
-                <form method="post" action="{{ path('svc_totp_oth_disable', {'id' : user.id}) }}" style="display: inline;">
+                <form method="post" action="{{ path('svc_totp_oth_disable', {'id' : user.id}) }}" style="display: inline;" onsubmit="return confirm('{% trans %}Are you sure you want to disable 2FA for user{% endtrans %} {{ user.email }}?');">
                   <input type="hidden" name="_csrf_token" value="{{ csrf_token('totp-admin-disable') }}">
                   <button type="submit" class='btn btn-sm btn-warning'>{% trans %}Disable{% endtrans %}</button>
                 </form>
-                <form method="post" action="{{ path('svc_totp_oth_disable', {'id' : user.id}) }}" style="display: inline;">
+                <form method="post" action="{{ path('svc_totp_oth_disable', {'id' : user.id}) }}" style="display: inline;" onsubmit="return confirm('{% trans %}Are you sure you want to reset 2FA for user{% endtrans %} {{ user.email }}? {% trans %}This will delete their QR code secret, backup codes, and trusted devices.{% endtrans %}');">
                   <input type="hidden" name="_csrf_token" value="{{ csrf_token('totp-admin-disable') }}">
                   <input type="hidden" name="reset" value="1">
                   <button type="submit" class='btn btn-sm btn-danger'>{% trans %}Reset{% endtrans %}</button>
@@ -42,7 +42,7 @@
             </td>
             <td>
               {% if user.isTotpAuthenticationEnabled and is_granted("ROLE_ADMIN") and user.id != app.user.id %}
-                <form method="post" action="{{ path('svc_totp_clear_oth_td', {'id' : user.id}) }}" style="display: inline;">
+                <form method="post" action="{{ path('svc_totp_clear_oth_td', {'id' : user.id}) }}" style="display: inline;" onsubmit="return confirm('{% trans %}Are you sure you want to clear trusted devices for user{% endtrans %} {{ user.email }}?');">
                   <input type="hidden" name="_csrf_token" value="{{ csrf_token('totp-admin-clear-trusted') }}">
                   <button type="submit" class='btn btn-sm btn-primary' title="{% trans %}Clear trusted devices{% endtrans %}">{% trans %}Clear{% endtrans %}</button>
                 </form>
@@ -55,10 +55,10 @@
 
     <h2>{% trans %}General{% endtrans %}</h2>
 
-    <form method="post" action="{{ path('svc_totp_cleartd') }}" style="display: inline;">
+    <form method="post" action="{{ path('svc_totp_cleartd') }}" style="display: inline;" onsubmit="return confirm('{% trans %}Are you sure you want to clear ALL trusted devices for ALL users? This will force all users to enter their 2FA code on all devices.{% endtrans %}');">
       <input type="hidden" name="_csrf_token" value="{{ csrf_token('totp-clear-trusted') }}">
       <input type="hidden" name="allUsers" value="1">
-      <button type="submit" class='btn btn-sm btn-primary'>{% trans %}Clear trusted devices{% endtrans %} ({% trans %}all{% endtrans %})</button>
+      <button type="submit" class='btn btn-sm btn-danger'>{% trans %}Clear trusted devices{% endtrans %} ({% trans %}all{% endtrans %})</button>
     </form>
     <br/><br/>
 

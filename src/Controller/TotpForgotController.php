@@ -94,17 +94,18 @@ class TotpForgotController extends AbstractController
         }
         $id = $request->get('id');
 
-        if (null === $id) {
-            $this->addFlash('danger', 'No user defined.');
+        // Validate that ID is a positive integer
+        if (null === $id || !is_numeric($id) || (int) $id <= 0) {
+            $this->addFlash('danger', $this->t('This reset link is invalid. Please request a new one.'));
 
             return $this->redirectToRoute($this->homePath);
         }
 
-        $user = $userRep->find($id);
+        $user = $userRep->find((int) $id);
 
         // Ensure the user exists in persistence
         if (null === $user) {
-            $this->addFlash('danger', 'User not exists.');
+            $this->addFlash('danger', $this->t('This reset link is invalid or has expired.'));
 
             return $this->redirectToRoute($this->homePath);
         }

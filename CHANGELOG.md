@@ -1,15 +1,9 @@
 # Changelog
 
 
-
 ## Version 1.0.0
 *Mon, 06 Jun 2022 14:30:11 +0000*
 - first version added to sv-video
-
-
-## Version 1.0.1
-*Mon, 06 Jun 2022 20:26:03 +0000*
-- added documentation
 
 
 ## Version 1.1.0
@@ -59,12 +53,8 @@
 
 ## Version 5.0.1
 *Sun, 17 Dec 2023 18:21:47 +0000*
-- ready for symfony 6.4 and 7 - fixed tests
-
-
-## Version 5.0.2
-*Sun, 17 Dec 2023 18:23:09 +0000*
-- ready for symfony 6.4 and 7 - fixed tests
+- ready for symfony 6.4 and 7
+- fixed tests
 
 
 ## Version 5.1.0
@@ -79,7 +69,8 @@
 
 ## Version 6.1.0
 *Wed, 24 Sep 2025 20:06:48 +0000*
-- breaking change, now it use php as route configuration. You have to import the routes in your project manually. See docs for more information.
+- breaking change, now it use php as route configuration. 
+- You have to import the routes in your project manually. See docs for more information.
 
 
 ## Version 6.2.0
@@ -89,4 +80,5 @@
 
 ## Version 6.3.0
 *Thu, 25 Sep 2025 19:25:03 +0000*
-- BREAKING: Upgraded TOTP algorithm from SHA-1 to SHA-256 for enhanced security. Users must re-setup their 2FA codes. Fixed route configuration bug.
+- BREAKING: Upgraded TOTP algorithm from SHA-1 to SHA-256 for enhanced security. Users must re-setup their 2FA codes. 
+- Fixed route configuration bug.

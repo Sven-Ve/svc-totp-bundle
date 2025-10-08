@@ -32,18 +32,18 @@
 
     <br/><br/>
     {% if app.user.isTotpAuthenticationEnabled %}
-      <form method="post" action="{{ path('svc_totp_disable') }}" style="display: inline;">
+      <form method="post" action="{{ path('svc_totp_disable') }}" style="display: inline;" onsubmit="return confirm('{% trans %}Are you sure you want to disable 2FA?{% endtrans %}');">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('totp-disable') }}">
         <button type="submit" class="btn btn-warning btn-block">{% trans %}Disable 2FA{% endtrans %}</button>
       </form>
 
-      <form method="post" action="{{ path('svc_totp_disable') }}" style="display: inline;">
+      <form method="post" action="{{ path('svc_totp_disable') }}" style="display: inline;" onsubmit="return confirm('{% trans %}Are you sure you want to reset 2FA? You will need to set it up again from scratch. This will delete your QR code secret, all backup codes, and all trusted devices.{% endtrans %}');">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('totp-disable') }}">
         <input type="hidden" name="reset" value="1">
         <button type="submit" class="btn btn-danger btn-block">{% trans %}Reset 2FA{% endtrans %}</button>
       </form>
 
-      <form method="post" action="{{ path('svc_totp_cleartd') }}" style="display: inline;">
+      <form method="post" action="{{ path('svc_totp_cleartd') }}" style="display: inline;" onsubmit="return confirm('{% trans %}Are you sure you want to clear all trusted devices? You will need to enter your 2FA code on all devices again.{% endtrans %}');">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('totp-clear-trusted') }}">
         <button type="submit" class="btn btn-primary btn-block">{% trans %}Clear trusted devices{% endtrans %}</button>
       </form>

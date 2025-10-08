@@ -113,7 +113,7 @@ class TotpController extends AbstractController
             $session->set('genBackupCodes', true);
             $this->logger->log('TOTP enabled', TotpLoggerInterface::LOG_TOTP_ENABLE, $user->getId());
         } else {
-            $this->addFlash('warning', 'Cannot enable 2FA');
+            $this->addFlash('warning', $this->t('Cannot enable 2FA. Please scan the QR code first.'));
         }
 
         return $this->redirectToRoute('svc_totp_manage');
