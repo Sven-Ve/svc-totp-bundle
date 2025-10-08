@@ -7,11 +7,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 SvcTotpBundle is a Symfony bundle that provides a user interface for the SchebTwoFactorBundle. It implements TOTP (Time-based One-Time Password), backup codes, and trusted devices functionality for 2FA authentication.
 
 **Key Technologies:**
-- Symfony 6.3+ / 7.0+
+- Symfony 7.2+
 - PHP 8.2+
 - Doctrine ORM 2.11+ / 3.0+
-- Scheb 2FA Bundle v7.0
+- Scheb 2FA Bundle v7.10+
 - Endroid QR Code Bundle v6
+- SymfonyCasts Verify Email Bundle v1.10+ (for Forgot 2FA feature)
 
 ## Development Commands
 
@@ -80,14 +81,21 @@ Services are configured in `config/services.php` and routes in `config/routes.ph
 - Uses Doctrine ORM for data persistence
 
 ### Testing
-- PHPUnit tests in `tests/` directory
-- Dummy entities and test kernel for testing
+- PHPUnit tests in `tests/` directory with comprehensive coverage:
+  - `ConfigurationValidationTest` - Bundle configuration validation
+  - `LoggerTest` - TotpLogger and TotpDefaultLogger functionality
+  - `MFATest` - User entity trait methods (backup codes, TOTP, trusted devices)
+- Dummy entities and test kernel (`SvcTotpTestingKernel`) for testing
 - PHPStan configuration ignores App\ namespace classes (expected in host applications)
+- PHPUnit configured with `failOnRisky="false"` and `failOnWarning="false"` to allow informational warnings from `error_log()` usage
 
 ## Important Notes
-- Bundle requires Symfony 6.1+ due to new Bundle Configuration System
+- Bundle requires Symfony 7.2+ (use version 5.x for Symfony 6.4/7.x, version 4.x for Symfony 6.1+)
 - User entity and repository are expected to be provided by host application (App\Entity\User, App\Repository\UserRepository)
+- User entity must implement `_TotpTrait` from this bundle for TOTP functionality
 - Templates can be overridden in host applications following Symfony conventions
+- All routes use modern PHP configuration format (config/routes.php)
+- All services use modern PHP configuration format (config/services.php)
 
 ### Security & Code Quality Improvements (2025-01)
 
@@ -116,11 +124,12 @@ The following improvements were implemented based on security audit and code qua
 - **Database Indexes** (#8): Performance optimization via database indexes on `isTotpAuthenticationEnabled` should be added via migrations in the host application based on specific performance requirements.
 
 ### Code Quality Requirements
-- **Testing**: All changes must pass `composer test` (PHPUnit with --testdox)
-- **Static Analysis**: Code must pass `composer phpstan` (level 5 analysis)
-- **Code Formatting**: Code must pass `/opt/homebrew/bin/php-cs-fixer fix --dry-run --diff`
-- **Test Coverage**: New features require comprehensive unit and integration tests
+- **Testing**: All changes must pass `composer test` (PHPUnit with --testdox). Test results showing "risky tests" warnings are acceptable when caused by `error_log()` usage in TotpLogger.
+- **Static Analysis**: Code must pass `composer phpstan` (level 5 analysis). PHPStan ignores App\ namespace and _TotpTrait.php.
+- **Code Formatting**: Code must pass `/opt/homebrew/bin/php-cs-fixer fix --dry-run --diff`. Uses Symfony + PSR12 rules with license header comments.
+- **Test Coverage**: New features require comprehensive unit and integration tests. Add `declare(strict_types=1);` to all test files.
 - **Release Process**: CHANGELOG.md is automatically updated via `bin/release.php` - edit that file for changelog entries
+- **Documentation**: Update relevant docs in `docs/` folder when adding features or breaking changes
 
 ### Release Management
 ```bash

@@ -40,6 +40,8 @@ return [
 
 ## Additional steps
 
+### QR Code Generation
+
 The bundle "endroid/qr-code-bundle" is used to display the QR code. This is installed during the installation.
 
 The following question must be answered with "y":
@@ -47,3 +49,16 @@ The following question must be answered with "y":
 endroid/installer contains a Composer plugin which is currently not in your allow-plugins config. See https://getcomposer.org/allow-plugins
 Do you trust "endroid/installer" to execute code and wish to enable it now? (writes "allow-plugins" to composer.json) [y,n,d,?] y
 ```
+
+### Email Configuration (Required for "Forgot 2FA" Feature)
+
+If you plan to use the "Forgot 2FA" functionality, ensure your Symfony mailer is properly configured:
+
+```yaml
+# config/packages/mailer.yaml
+framework:
+    mailer:
+        dsn: '%env(MAILER_DSN)%'
+```
+
+The bundle uses `symfonycasts/verify-email-bundle` for secure email verification. See the [Configuration documentation](config.md#enable-forget-qr-code-function) for enabling this feature.

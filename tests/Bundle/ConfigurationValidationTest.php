@@ -380,14 +380,16 @@ class ConfigurationValidationTest extends TestCase
             ];
 
             try {
-                $this->validateConfiguration($config);
+                // Suppress deprecation warnings for array-to-string conversion in PHP 8+
+                @$this->validateConfiguration($config);
                 $this->fail('Expected exception for non-string email: ' . var_export($value, true));
             } catch (\InvalidArgumentException $e) {
                 // Should either fail at empty check or email format validation
+                $message = $e->getMessage();
                 $this->assertTrue(
-                    str_contains($e->getMessage(), 'required when')
-                    || str_contains($e->getMessage(), 'must be a valid email'),
-                    'Unexpected exception message for value ' . var_export($value, true) . ': ' . $e->getMessage()
+                    str_contains($message, 'required when')
+                    || str_contains($message, 'must be a valid email'),
+                    'Unexpected exception message for value ' . var_export($value, true) . ': ' . $message
                 );
             }
         }

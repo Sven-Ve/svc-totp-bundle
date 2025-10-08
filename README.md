@@ -6,10 +6,13 @@
 [![Total Downloads](https://poser.pugx.org/svc/totp-bundle/downloads)](https://packagist.org/packages/svc/totp-bundle)
 [![PHP Version Require](http://poser.pugx.org/svc/totp-bundle/require/php)](https://packagist.org/packages/svc/totp-bundle)
 
-:warning: **Attention:** <br/>
-From version 4.0 the bundle works only with Symfony >=6.1, because the new Bundle Configuration System is used.<br/>
-Please use version 1.x for older Symfony installations.<br/>
-*The version jump comes from the synchronization of all svc bundle versions.*
+:warning: **Version Compatibility:** <br/>
+- **Version 6.x** (current): Requires Symfony 7.2+, PHP 8.2+
+- **Version 5.x**: Compatible with Symfony 6.4 and 7.x
+- **Version 4.x**: Compatible with Symfony 6.1+
+- **Version 1.x**: For older Symfony installations
+
+*Version 6.4.0+ includes breaking changes: All state-changing operations now require CSRF protection. See [Usage documentation](docs/usage.md) for migration details.*
 
 # Userinterface for the excellent SchebTwoFactorBundle
 
@@ -26,6 +29,7 @@ The following functions are enabled:
 * [Installation](docs/installation.md)
 * [Configuration](docs/config.md)
 * [Usage](docs/usage.md)
+* [Security Features](docs/security.md)
 * [Logging](docs/logging.md)
 
 ## Screenshots

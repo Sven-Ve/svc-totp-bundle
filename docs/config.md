@@ -1,5 +1,12 @@
 # Configuration
 
+## Requirements
+
+- **PHP**: 8.2 or higher
+- **Symfony**: 7.2 or higher (see [Installation](installation.md) for older versions)
+- **Doctrine ORM**: 2.11 or 3.x
+- **SchebTwoFactorBundle**: 7.10 or higher
+
 ## Routes
 
 add a new file config/routes/svc_totp.yaml
