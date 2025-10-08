@@ -89,6 +89,9 @@ Services are configured in `config/services.php` and routes in `config/routes.ph
 - User entity and repository are expected to be provided by host application (App\Entity\User, App\Repository\UserRepository)
 - Templates can be overridden in host applications following Symfony conventions
 
+### Known Limitations (Intentionally Not Fixed)
+- **Backup Code Generation Loop**: The `generateBackCodes()` method in `TotpController` theoretically has an infinite loop risk if `random_int()` continuously generates duplicate 6-digit codes. However, the probability is extremely low (~0.0000001%) with 900,000 possible codes and only 10 required. The risk/reward ratio does not justify adding complexity for this edge case. This would only become an issue if someone reduces the code length to 3-4 digits or dramatically increases the number of backup codes required.
+
 ### Code Quality Requirements
 - **Testing**: All changes must pass `composer test` (PHPUnit with --testdox)
 - **Static Analysis**: Code must pass `composer phpstan` (level 5 analysis)

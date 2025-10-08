@@ -31,12 +31,12 @@ trait _TotpTrait
 
     public function isTotpSecret(): bool
     {
-        return $this->totpSecret ? true : false;
+        return $this->totpSecret !== null;
     }
 
     public function isTotpAuthenticationEnabled(): bool
     {
-        return $this->isTotpAuthenticationEnabled and ($this->totpSecret ? true : false);
+        return $this->isTotpAuthenticationEnabled && $this->totpSecret !== null;
     }
 
     public function getTotpAuthenticationUsername(): string

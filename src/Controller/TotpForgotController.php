@@ -46,6 +46,10 @@ class TotpForgotController extends AbstractController
         }
 
         $user = $this->getUser();
+        if (!$user instanceof \App\Entity\User) {
+            throw $this->createAccessDeniedException('User not authenticated');
+        }
+
         $send = (bool) $request->request->get('send', false);
 
         if ($send) {

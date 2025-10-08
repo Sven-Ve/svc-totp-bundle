@@ -44,6 +44,9 @@ class TotpController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw $this->createAccessDeniedException('User not authenticated');
+        }
 
         if ($session->get('genBackupCodes')) {
             $session->remove('genBackupCodes');
@@ -74,6 +77,10 @@ class TotpController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw $this->createAccessDeniedException('User not authenticated');
+        }
+
         if (!$user->isTotpSecret()) {
             return new Response();
         }
@@ -96,6 +103,10 @@ class TotpController extends AbstractController
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw $this->createAccessDeniedException('User not authenticated');
+        }
+
         if ($user->isTotpSecret()) {
             $user->enableTotpAuthentication();
             $this->entityManager->flush();
@@ -118,6 +129,10 @@ class TotpController extends AbstractController
 
         $reset = (bool) $request->request->get('reset');
         $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw $this->createAccessDeniedException('User not authenticated');
+        }
+
         if ($user->isTotpAuthenticationEnabled()) {
             $user->disableTotpAuthentication($reset);
             $this->entityManager->flush();
@@ -139,16 +154,21 @@ class TotpController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
+        $currentUser = $this->getUser();
+        if (!$currentUser instanceof User) {
+            throw $this->createAccessDeniedException('User not authenticated');
+        }
+
         $reset = (bool) $request->request->get('reset');
 
         if ($user->isTotpAuthenticationEnabled()) {
             $user->disableTotpAuthentication($reset);
             $this->entityManager->flush();
             if ($reset) {
-                $this->logger->log('TOTP reset by ' . $this->getUser()->getUserIdentifier(), TotpLoggerInterface::LOG_TOTP_RESET_BY_ADMIN, $user->getId());
+                $this->logger->log('TOTP reset by ' . $currentUser->getUserIdentifier(), TotpLoggerInterface::LOG_TOTP_RESET_BY_ADMIN, $user->getId());
                 $this->addFlash('info', '2FA for user ' . $user->getUserIdentifier() . ' reset.');
             } else {
-                $this->logger->log('TOTP disabled by ' . $this->getUser()->getUserIdentifier(), TotpLoggerInterface::LOG_TOTP_DISABLE_BY_ADMIN, $user->getId());
+                $this->logger->log('TOTP disabled by ' . $currentUser->getUserIdentifier(), TotpLoggerInterface::LOG_TOTP_DISABLE_BY_ADMIN, $user->getId());
                 $this->addFlash('info', '2FA for user ' . $user->getUserIdentifier() . ' disabled.');
             }
         }
@@ -167,6 +187,10 @@ class TotpController extends AbstractController
         if (!$allUsers) {
             $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
             $user = $this->getUser();
+            if (!$user instanceof User) {
+                throw $this->createAccessDeniedException('User not authenticated');
+            }
+
             $user->clearTrustedToken();
             $this->entityManager->flush();
             $this->addFlash('info', $this->t('Your trusted devices have been deleted.'));
@@ -176,10 +200,15 @@ class TotpController extends AbstractController
         }
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
+        $currentUser = $this->getUser();
+        if (!$currentUser instanceof User) {
+            throw $this->createAccessDeniedException('User not authenticated');
+        }
+
         /* @phpstan-ignore-next-line */
         foreach ($userRep->findBy(['isTotpAuthenticationEnabled' => true]) as $user) {
             $user->clearTrustedToken();
-            $this->logger->log('TOTP trusted devices (all) cleared by ' . $this->getUser()->getUserIdentifier(), TotpLoggerInterface::LOG_TOTP_CLEAR_TD_BY_ADMIN, $user->getId());
+            $this->logger->log('TOTP trusted devices (all) cleared by ' . $currentUser->getUserIdentifier(), TotpLoggerInterface::LOG_TOTP_CLEAR_TD_BY_ADMIN, $user->getId());
         }
         $this->entityManager->flush();
         $this->addFlash('info', $this->t('All trusted devices have been deleted.'));
@@ -196,10 +225,15 @@ class TotpController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
+        $currentUser = $this->getUser();
+        if (!$currentUser instanceof User) {
+            throw $this->createAccessDeniedException('User not authenticated');
+        }
+
         $user->clearTrustedToken();
         $this->entityManager->flush();
 
-        $this->logger->log('TOTP trusted devices cleared by ' . $this->getUser()->getUserIdentifier(), TotpLoggerInterface::LOG_TOTP_CLEAR_TD_BY_ADMIN, $user->getId());
+        $this->logger->log('TOTP trusted devices cleared by ' . $currentUser->getUserIdentifier(), TotpLoggerInterface::LOG_TOTP_CLEAR_TD_BY_ADMIN, $user->getId());
         $this->addFlash('info', $this->t('The trusted devices for user %user% have been deleted.', ['%user%' => $user->getUserIdentifier()]));
 
         return $this->redirectToRoute($this->homePath);
@@ -236,6 +270,10 @@ class TotpController extends AbstractController
     private function generateBackCodes(): array
     {
         $user = $this->getUser();
+        if (!$user instanceof User) {
+            return [];
+        }
+
         if ($user->isTotpSecret()) {
             $user->clearBackUpCodes();
             $bCodes = [];

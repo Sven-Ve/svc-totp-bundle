@@ -26,11 +26,20 @@ class TotpLogger
 
             return true;
         } catch (\ArgumentCountError|\Exception $e) {
+            // Always log the exception to PHP error log for debugging
+            error_log(sprintf(
+                '[SvcTotpBundle] Logger exception: %s in %s:%d - Message: %s',
+                get_class($e),
+                $e->getFile(),
+                $e->getLine(),
+                $e->getMessage()
+            ));
+
             if ($this->env === 'dev') {
                 throw $e;
             }
-        }
 
-        return false;
+            return false;
+        }
     }
 }

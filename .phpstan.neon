@@ -7,11 +7,10 @@ parameters:
 #    - tests/
   ignoreErrors:
     - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition.*#'
-#    - '#Call to an undefined method App\\Entity\\User::getId\(\).#'
-    - '#Call to an undefined method Symfony\\Component\\Security\\Core\\User\\UserInterface::.*#'
     - '#Call to method .*\(\) on an unknown class App\\Entity\\User#'
     - '#Call to method find.*\(\) on an unknown class App\\Repository\\UserRepository.#'
     - '#Parameter \$user of method Svc\\TotpBundle\\.*\(\) has invalid type App\\Entity\\User#'
     - '#Parameter \$userRep of method Svc\\TotpBundle\\.*\(\) has invalid type App\\Repository\\UserRepository#'
+    - '#Class App\\Entity\\User not found.#'
   excludePaths:
     - 'src/Service/_TotpTrait.php'
