@@ -128,6 +128,8 @@ class TotpForgotController extends AbstractController
 
     /**
      * private function to translate content in namespace 'TotpBundle'.
+     *
+     * @param array<string, mixed> $placeholder
      */
     private function t(string $text, array $placeholder = []): string
     {

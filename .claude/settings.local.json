@@ -6,7 +6,8 @@
       "Bash(composer:*)",
       "Bash(find:*)",
       "WebSearch",
-      "Bash(/opt/homebrew/bin/php-cs-fixer fix)"
+      "Bash(/opt/homebrew/bin/php-cs-fixer fix)",
+      "Bash(vendor/bin/phpstan analyse:*)"
     ],
     "deny": [],
     "ask": []

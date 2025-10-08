@@ -42,6 +42,9 @@ class SvcTotpBundle extends AbstractBundle
           ->end();
     }
 
+    /**
+     * @param array<string, mixed> $config
+     */
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
         // Validate configuration at compile time

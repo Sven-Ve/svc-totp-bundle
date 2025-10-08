@@ -82,3 +82,8 @@
 *Thu, 25 Sep 2025 19:25:03 +0000*
 - BREAKING: Upgraded TOTP algorithm from SHA-1 to SHA-256 for enhanced security. Users must re-setup their 2FA codes. 
 - Fixed route configuration bug.
+
+
+## Version 6.4.0
+*Wed, 08 Oct 2025 12:49:36 +0000*
+- Improve security, update tests and docs.

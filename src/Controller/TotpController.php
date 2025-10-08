@@ -266,6 +266,8 @@ class TotpController extends AbstractController
 
     /**
      * create an array of backup codes.
+     *
+     * @return array<int>
      */
     private function generateBackCodes(): array
     {
@@ -295,6 +297,8 @@ class TotpController extends AbstractController
 
     /**
      * private function to translate content in namespace 'TotpBundle'.
+     *
+     * @param array<string, mixed> $placeholder
      */
     private function t(string $text, array $placeholder = []): string
     {

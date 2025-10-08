@@ -29,7 +29,7 @@ vendor/bin/phpunit --testdox --filter=ClassNameTest
 # Run PHPStan static analysis
 composer phpstan
 # or directly
-vendor/bin/phpstan analyse src/ --level 5 -c .phpstan.neon
+vendor/bin/phpstan analyse src/ --level 7 -c .phpstan.neon
 ```
 
 ### Code Quality
@@ -125,7 +125,7 @@ The following improvements were implemented based on security audit and code qua
 
 ### Code Quality Requirements
 - **Testing**: All changes must pass `composer test` (PHPUnit with --testdox). Test results showing "risky tests" warnings are acceptable when caused by `error_log()` usage in TotpLogger.
-- **Static Analysis**: Code must pass `composer phpstan` (level 5 analysis). PHPStan ignores App\ namespace and _TotpTrait.php.
+- **Static Analysis**: Code must pass `composer phpstan` (level 7 analysis). PHPStan ignores App\ namespace and _TotpTrait.php. When adding array type hints, use PHPDoc format: `@return array<type>`, `@param array<key, value>`.
 - **Code Formatting**: Code must pass `/opt/homebrew/bin/php-cs-fixer fix --dry-run --diff`. Uses Symfony + PSR12 rules with license header comments.
 - **Test Coverage**: New features require comprehensive unit and integration tests. Add `declare(strict_types=1);` to all test files.
 - **Release Process**: CHANGELOG.md is automatically updated via `bin/release.php` - edit that file for changelog entries

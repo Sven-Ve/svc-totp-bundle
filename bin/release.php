@@ -10,8 +10,8 @@
  * file that was distributed with this source code.
  */
 
-$version = '6.3.0';
-$message = 'BREAKING: Upgraded TOTP algorithm from SHA-1 to SHA-256 for enhanced security. Users must re-setup their 2FA codes. Fixed route configuration bug.';
+$version = '6.4.0';
+$message = 'Improve security, update tests and docs.';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);
