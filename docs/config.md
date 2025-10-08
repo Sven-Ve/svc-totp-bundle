@@ -127,7 +127,14 @@ svc_totp:
 
 **Important:** When enabling the "Forgot 2FA" functionality, you **must** configure the `fromEmail` parameter to specify which email address should be used as the sender for 2FA reset emails.
 
-**Note:** The bundle will validate this configuration at compile time. If you set `enableForgot2FA: true` without providing a `fromEmail` address, Symfony will throw an `InvalidArgumentException` during container compilation, preventing the application from starting with an invalid configuration.
+**Note:** The bundle will validate this configuration at compile time. If you set `enableForgot2FA: true` without providing a valid `fromEmail` address, Symfony will throw an `InvalidArgumentException` during container compilation, preventing the application from starting with an invalid configuration.
+
+**Validation Rules:**
+- `fromEmail` must not be `null`, empty string, or consist only of whitespace characters
+- `fromEmail` must be a valid email address format (validated using PHP's `FILTER_VALIDATE_EMAIL`)
+- Leading and trailing whitespace will be automatically trimmed during validation
+- Example valid values: `'no-reply@example.com'`, `'admin@subdomain.example.org'`
+- Example invalid values: `''`, `'   '`, `null`, `false`, `'not-an-email'`, `'user@'`, `'@domain.com'`
 
 and add the path to the reset method to security.yaml right after the two other 2FA paths
 ```yaml

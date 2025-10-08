@@ -91,6 +91,7 @@ class TotpController extends AbstractController
     /**
      * enable the qr code.
      */
+    #[\Symfony\Component\Security\Http\Attribute\IsCsrfTokenValid('totp-enable')]
     public function enableTotp(SessionInterface $session): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -110,11 +111,12 @@ class TotpController extends AbstractController
     /**
      * disable/reset 2fa  for the current user.
      */
+    #[\Symfony\Component\Security\Http\Attribute\IsCsrfTokenValid('totp-disable')]
     public function disableTotp(Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        $reset = (bool) $request->get('reset');
+        $reset = (bool) $request->request->get('reset');
         $user = $this->getUser();
         if ($user->isTotpAuthenticationEnabled()) {
             $user->disableTotpAuthentication($reset);
@@ -132,11 +134,12 @@ class TotpController extends AbstractController
     /**
      * disable/reset  2fa for another user.
      */
+    #[\Symfony\Component\Security\Http\Attribute\IsCsrfTokenValid('totp-admin-disable')]
     public function disableOtherTotp(User $user, Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        $reset = (bool) $request->get('reset');
+        $reset = (bool) $request->request->get('reset');
 
         if ($user->isTotpAuthenticationEnabled()) {
             $user->disableTotpAuthentication($reset);
@@ -156,9 +159,10 @@ class TotpController extends AbstractController
     /**
      * clear trusted device for current or all users.
      */
+    #[\Symfony\Component\Security\Http\Attribute\IsCsrfTokenValid('totp-clear-trusted')]
     public function clearTrustedDevice(UserRepository $userRep, Request $request): Response
     {
-        $allUsers = (bool) $request->get('allUsers');
+        $allUsers = (bool) $request->request->get('allUsers');
 
         if (!$allUsers) {
             $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -187,6 +191,7 @@ class TotpController extends AbstractController
     /**
      * clear trusted device for other users.
      */
+    #[\Symfony\Component\Security\Http\Attribute\IsCsrfTokenValid('totp-admin-clear-trusted')]
     public function clearOtherTrustedDevice(User $user): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');

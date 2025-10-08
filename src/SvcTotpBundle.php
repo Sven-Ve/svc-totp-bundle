@@ -45,11 +45,19 @@ class SvcTotpBundle extends AbstractBundle
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
         // Validate configuration at compile time
-        if ($config['enableForgot2FA'] && empty($config['fromEmail'])) {
-            throw new \InvalidArgumentException(
-                'The "fromEmail" configuration parameter is required when "enableForgot2FA" is set to true. ' .
-                'Please configure svc_totp.fromEmail in your bundle configuration (e.g., "no-reply@example.com").'
-            );
+        if ($config['enableForgot2FA']) {
+            $fromEmail = $config['fromEmail'] ?? null;
+
+            // Check if fromEmail is empty or whitespace-only
+            if (empty($fromEmail) || empty(trim((string) $fromEmail))) {
+                throw new \InvalidArgumentException('The "fromEmail" configuration parameter is required when "enableForgot2FA" is set to true. Please configure svc_totp.fromEmail in your bundle configuration (e.g., "no-reply@example.com").');
+            }
+
+            // Validate email format
+            $trimmedEmail = trim((string) $fromEmail);
+            if (!filter_var($trimmedEmail, FILTER_VALIDATE_EMAIL)) {
+                throw new \InvalidArgumentException('The "fromEmail" configuration parameter must be a valid email address. Provided value "' . $trimmedEmail . '" is not a valid email format. Please use a valid email address (e.g., "no-reply@example.com").');
+            }
         }
 
         $container->import('../config/services.php');

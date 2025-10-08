@@ -4,7 +4,9 @@
       "Bash(vendor/bin/phpunit:*)",
       "Bash(composer test:*)",
       "Bash(composer:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "WebSearch",
+      "Bash(/opt/homebrew/bin/php-cs-fixer fix)"
     ],
     "deny": [],
     "ask": []

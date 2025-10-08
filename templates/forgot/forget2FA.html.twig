@@ -14,7 +14,11 @@
     {% trans %}We will email you to confirm your identity{% endtrans %}.<br/>
 
     <br/>
-    <a class="btn btn-primary" href="{{ path('svc_totp_forgot', {'send' : true} ) }}">{% trans %}Send email{% endtrans %}</a>
+    <form method="post" action="{{ path('svc_totp_forgot') }}">
+      <input type="hidden" name="_csrf_token" value="{{ csrf_token('totp-forgot') }}">
+      <input type="hidden" name="send" value="1">
+      <button type="submit" class="btn btn-primary">{% trans %}Send email{% endtrans %}</button>
+    </form>
   </div>
 </div>
 {% endblock %}

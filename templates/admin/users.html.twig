@@ -29,13 +29,23 @@
             <td>{{ user.getTrustedTokenVersion }}</td>
             <td>
               {% if user.isTotpAuthenticationEnabled and is_granted("ROLE_ADMIN") and user.id != app.user.id %}
-                <a class='btn btn-sm btn-warning' href="{{ path('svc_totp_oth_disable', {'id' : user.id}) }}">{% trans %}Disable{% endtrans %}</a>
-                <a class='btn btn-sm btn-danger' href="{{ path('svc_totp_oth_disable', {'id' : user.id, 'reset': true}) }}">{% trans %}Reset{% endtrans %}</a>
+                <form method="post" action="{{ path('svc_totp_oth_disable', {'id' : user.id}) }}" style="display: inline;">
+                  <input type="hidden" name="_csrf_token" value="{{ csrf_token('totp-admin-disable') }}">
+                  <button type="submit" class='btn btn-sm btn-warning'>{% trans %}Disable{% endtrans %}</button>
+                </form>
+                <form method="post" action="{{ path('svc_totp_oth_disable', {'id' : user.id}) }}" style="display: inline;">
+                  <input type="hidden" name="_csrf_token" value="{{ csrf_token('totp-admin-disable') }}">
+                  <input type="hidden" name="reset" value="1">
+                  <button type="submit" class='btn btn-sm btn-danger'>{% trans %}Reset{% endtrans %}</button>
+                </form>
               {% endif %}
             </td>
             <td>
               {% if user.isTotpAuthenticationEnabled and is_granted("ROLE_ADMIN") and user.id != app.user.id %}
-                <a class='btn btn-sm btn-primary' href="{{ path('svc_totp_clear_oth_td', {'id' : user.id}) }}" title="{% trans %}Clear trusted devices{% endtrans %}">{% trans %}Clear{% endtrans %}</a>
+                <form method="post" action="{{ path('svc_totp_clear_oth_td', {'id' : user.id}) }}" style="display: inline;">
+                  <input type="hidden" name="_csrf_token" value="{{ csrf_token('totp-admin-clear-trusted') }}">
+                  <button type="submit" class='btn btn-sm btn-primary' title="{% trans %}Clear trusted devices{% endtrans %}">{% trans %}Clear{% endtrans %}</button>
+                </form>
               {% endif %}
             </td>
           </tr>
@@ -45,7 +55,11 @@
 
     <h2>{% trans %}General{% endtrans %}</h2>
 
-    <a class='btn btn-sm btn-primary' href="{{ path('svc_totp_cleartd', {'allUsers': true}) }}">{% trans %}Clear trusted devices{% endtrans %} ({% trans %}all{% endtrans %})</a>
+    <form method="post" action="{{ path('svc_totp_cleartd') }}" style="display: inline;">
+      <input type="hidden" name="_csrf_token" value="{{ csrf_token('totp-clear-trusted') }}">
+      <input type="hidden" name="allUsers" value="1">
+      <button type="submit" class='btn btn-sm btn-primary'>{% trans %}Clear trusted devices{% endtrans %} ({% trans %}all{% endtrans %})</button>
+    </form>
     <br/><br/>
 
     {% include("@SvcTotp/_gen/_help.html.twig") %}

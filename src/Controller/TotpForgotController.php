@@ -34,6 +34,7 @@ class TotpForgotController extends AbstractController
     /**
      * forget password, reset via mail.
      */
+    #[\Symfony\Component\Security\Http\Attribute\IsCsrfTokenValid('totp-forgot')]
     public function forgetPassword(Request $request, MailerInterface $mailer): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_2FA_IN_PROGRESS');
@@ -45,7 +46,7 @@ class TotpForgotController extends AbstractController
         }
 
         $user = $this->getUser();
-        $send = (bool) $request->get('send', false);
+        $send = (bool) $request->request->get('send', false);
 
         if ($send) {
             $signatureComponents = $this->verifyEmailHelper->generateSignature(
