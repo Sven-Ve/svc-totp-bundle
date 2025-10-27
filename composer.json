@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": "^8.2",
-        "doctrine/doctrine-bundle": "^2.10",
+        "doctrine/doctrine-bundle": "^2.10 | ^3",
         "doctrine/orm": "^2.11 | ^3",
         "endroid/qr-code-bundle": "^6",
         "scheb/2fa-backup-code": "^7.0",

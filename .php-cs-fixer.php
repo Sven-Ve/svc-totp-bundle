@@ -9,9 +9,11 @@ $finder = PhpCsFixer\Finder::create()
 ;
 $config = new PhpCsFixer\Config();
 return $config
+  ->setRiskyAllowed(true)
   ->setRules([
         '@Symfony' => true,
         '@PSR12' => true,
+        'declare_strict_types' => true,
         'yoda_style' => false,
         'indentation_type' => true,
         'array_indentation' => true,

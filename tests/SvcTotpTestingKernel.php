@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the SvcTotp bundle.
  *
@@ -66,7 +68,7 @@ class SvcTotpTestingKernel extends Kernel
                     'url' => 'sqlite:///' . $this->getCacheDir() . '/app.db',
                 ],
                 'orm' => [
-                    'auto_generate_proxy_classes' => true,
+                    //                    'auto_generate_proxy_classes' => true,
                     'auto_mapping' => true,
                 ],
             ]);

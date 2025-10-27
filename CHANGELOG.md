@@ -87,3 +87,8 @@
 ## Version 6.4.0
 *Wed, 08 Oct 2025 12:49:36 +0000*
 - Improve security, update tests and docs.
+
+
+## Version 6.5.0
+*Mon, 27 Oct 2025 18:20:53 +0000*
+- Add strict types declaration across multiple files; update composer.json to support newer doctrine versions
