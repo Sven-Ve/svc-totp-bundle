@@ -18,35 +18,46 @@ use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 return static function (RoutingConfigurator $routes): void {
     $routes->add('svc_totp_manage', '/manage/')
-        ->controller([TotpController::class, 'manageTotp']);
+        ->controller([TotpController::class, 'manageTotp'])
+        ->methods(['GET']);
 
     $routes->add('svc_totp_qrcode', '/qrcode/')
-        ->controller([TotpController::class, 'totpQRCode']);
+        ->controller([TotpController::class, 'totpQRCode'])
+        ->methods(['GET']);
 
     $routes->add('svc_totp_enable', '/enable/')
-        ->controller([TotpController::class, 'enableTotp']);
+        ->controller([TotpController::class, 'enableTotp'])
+        ->methods(['POST']);
 
     $routes->add('svc_totp_disable', '/disable/')
-        ->controller([TotpController::class, 'disableTotp']);
+        ->controller([TotpController::class, 'disableTotp'])
+        ->methods(['POST']);
 
     $routes->add('svc_totp_oth_disable', '/disable/{id}')
-        ->controller([TotpController::class, 'disableOtherTotp']);
+        ->controller([TotpController::class, 'disableOtherTotp'])
+        ->methods(['POST']);
 
     $routes->add('svc_totp_cleartd', '/cleartd/')
-        ->controller([TotpController::class, 'clearTrustedDevice']);
+        ->controller([TotpController::class, 'clearTrustedDevice'])
+        ->methods(['POST']);
 
     $routes->add('svc_totp_clear_oth_td', '/clearotd/{id}')
-        ->controller([TotpController::class, 'clearOtherTrustedDevice']);
+        ->controller([TotpController::class, 'clearOtherTrustedDevice'])
+        ->methods(['POST']);
 
     $routes->add('svc_totp_user_admin', '/admin/users/')
-        ->controller([TotpAdminController::class, 'index']);
+        ->controller([TotpAdminController::class, 'index'])
+        ->methods(['GET']);
 
     $routes->add('svc_totp_forgot', '/forgot/')
-        ->controller([TotpForgotController::class, 'forgetPassword']);
+        ->controller([TotpForgotController::class, 'forgetPassword'])
+        ->methods(['GET', 'POST']);
 
     $routes->add('svc_totp_verify_forgot', '/forgot/verify/')
-        ->controller([TotpForgotController::class, 'verifyForgetPassword']);
+        ->controller([TotpForgotController::class, 'verifyForgetPassword'])
+        ->methods(['GET']);
 
     $routes->add('svc_totp_forgot_btn', '/forgot/btn/')
-        ->controller([TotpController::class, 'forgotButton']);
+        ->controller([TotpController::class, 'forgotButton'])
+        ->methods(['GET']);
 };

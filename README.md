@@ -7,12 +7,14 @@
 [![PHP Version Require](http://poser.pugx.org/svc/totp-bundle/require/php)](https://packagist.org/packages/svc/totp-bundle)
 
 :warning: **Version Compatibility:** <br/>
-- **Version 6.x** (current): Requires Symfony 7.2+, PHP 8.2+
-- **Version 5.x**: Compatible with Symfony 6.4 and 7.x
+- **Version 6.x** (current): Requires Symfony 7.2+, PHP 8.4+
+- **Version 5.x**: Compatible with Symfony 6.4 and 7.x, PHP 8.2+
 - **Version 4.x**: Compatible with Symfony 6.1+
 - **Version 1.x**: For older Symfony installations
 
-*Version 6.4.0+ includes breaking changes: All state-changing operations now require CSRF protection. See [Usage documentation](docs/usage.md) for migration details.*
+**Breaking Changes:**
+- *Version 6.4.0+*: All state-changing operations now require CSRF protection and POST methods. See [Usage documentation](docs/usage.md) for migration details.
+- *Version 6.6.0* (2025-01): HTTP method restrictions enforced on all routes. Rate limiting requires symfony/rate-limiter dependency **and manual configuration**. Non-nullable `$backupCodes` array type in trait. See [Configuration documentation](docs/config.md#rate-limiting-configuration-version-660) for details.
 
 # Userinterface for the excellent SchebTwoFactorBundle
 

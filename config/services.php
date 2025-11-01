@@ -28,7 +28,8 @@ return static function (ContainerConfigurator $container): void {
 
     $services->set(TotpController::class);
     $services->set(TotpAdminController::class);
-    $services->set(TotpForgotController::class);
+    $services->set(TotpForgotController::class)
+        ->arg('$svcTotpForgot2faLimiter', service('limiter.svc_totp_forgot_2fa'));
 
     $services->set(TotpLogger::class)
         ->args([

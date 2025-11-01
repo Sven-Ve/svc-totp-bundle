@@ -166,4 +166,38 @@ class MFATest extends TestCase
         $this->assertTrue($user->addBackUpCode('123456'));
         $this->assertTrue($user->isBackupCode('123456'));
     }
+
+    public function testInvalidateBackupCodeReindexesArray(): void
+    {
+        $user = new User();
+
+        // Add three backup codes
+        $this->assertTrue($user->addBackUpCode('111111'));
+        $this->assertTrue($user->addBackUpCode('222222'));
+        $this->assertTrue($user->addBackUpCode('333333'));
+
+        // Invalidate the middle one
+        $user->invalidateBackupCode('222222');
+
+        // Verify the code is removed
+        $this->assertFalse($user->isBackupCode('222222'));
+
+        // Verify we can add more codes (array should be properly reindexed)
+        $this->assertTrue($user->addBackUpCode('444444'));
+        $this->assertTrue($user->isBackupCode('444444'));
+    }
+
+    public function testStrictComparisonInBackupCodes(): void
+    {
+        $user = new User();
+
+        // Add a numeric string backup code
+        $this->assertTrue($user->addBackUpCode('123456'));
+
+        // Verify strict comparison works (string vs int)
+        $this->assertTrue($user->isBackupCode('123456'));
+
+        // Try to add the same code again - should fail
+        $this->assertFalse($user->addBackUpCode('123456'));
+    }
 }

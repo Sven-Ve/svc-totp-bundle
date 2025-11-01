@@ -2,10 +2,11 @@
 
 ## Requirements
 
-- **PHP**: 8.2 or higher
+- **PHP**: 8.4 or higher
 - **Symfony**: 7.2 or higher (see [Installation](installation.md) for older versions)
 - **Doctrine ORM**: 2.11 or 3.x
 - **SchebTwoFactorBundle**: 7.10 or higher
+- **Symfony RateLimiter**: 7.2 or higher (automatically installed as dependency)
 
 ## Routes
 
@@ -150,3 +151,65 @@ access_control:
     - ...
     - { path: ^/mfa/.*/forgot, role: IS_AUTHENTICATED_2FA_IN_PROGRESS }
 ```
+
+## Rate Limiting Configuration (Version 6.6.0+)
+
+**As of version 6.6.0**: Rate limiting is built into the "Forgot 2FA" functionality to prevent abuse. **You must configure the rate limiter in your application** for this feature to work.
+
+### Required Configuration
+
+Add the following configuration to your application's `config/packages/framework.yaml` or create a new file `config/packages/rate_limiter.yaml`:
+
+```yaml
+# config/packages/rate_limiter.yaml or config/packages/framework.yaml
+framework:
+    rate_limiter:
+        svc_totp_forgot_2fa:
+            policy: 'sliding_window'
+            limit: 3
+            interval: '15 minutes'
+```
+
+**Important**: Without this configuration, the application will fail to start during container compilation. The bundle validates at compile-time that the rate limiter service `limiter.svc_totp_forgot_2fa` exists and provides a detailed error message with configuration instructions if it's missing.
+
+The default configuration limits forgot 2FA email requests to **3 requests per 15 minutes per IP address**.
+
+### Customizing Rate Limits
+
+You can override the default rate limiting settings in your application configuration:
+
+```yaml
+# config/packages/svc_totp.yaml or config/packages/rate_limiter.yaml
+framework:
+    rate_limiter:
+        svc_totp_forgot_2fa:
+            policy: 'sliding_window'  # Options: sliding_window, fixed_window, token_bucket
+            limit: 5                   # Number of allowed requests
+            interval: '10 minutes'     # Time window (e.g., '5 minutes', '1 hour')
+```
+
+### Rate Limiter Storage
+
+By default, the rate limiter uses Symfony's default cache adapter. For production environments, you may want to configure a specific cache adapter:
+
+```yaml
+# config/packages/cache.yaml
+framework:
+    cache:
+        pools:
+            cache.rate_limiter:
+                adapter: cache.adapter.redis  # or cache.adapter.memcached, etc.
+```
+
+### Trusted Proxies
+
+If your application is behind a load balancer or proxy, configure trusted proxies to ensure the rate limiter uses the real client IP:
+
+```yaml
+# config/packages/framework.yaml
+framework:
+    trusted_proxies: '127.0.0.1,REMOTE_ADDR'
+    trusted_headers: ['x-forwarded-for', 'x-forwarded-proto', 'x-forwarded-port']
+```
+
+See the [Symfony documentation](https://symfony.com/doc/current/deployment/proxies.html) for more details on trusted proxy configuration.

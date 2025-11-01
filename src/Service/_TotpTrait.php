@@ -29,7 +29,7 @@ trait _TotpTrait
     private int $trustedVersion = 0;
 
     #[ORM\Column(type: 'json', options: ['default' => '[]'])]
-    private ?array $backupCodes = [];
+    private array $backupCodes = [];
 
     public function isTotpSecret(): bool
     {
@@ -113,11 +113,7 @@ trait _TotpTrait
      */
     public function isBackupCode(string $code): bool
     {
-        if ($this->backupCodes === null) {
-            return false;
-        }
-
-        return in_array($code, $this->backupCodes);
+        return in_array($code, $this->backupCodes, true);
     }
 
     /**
@@ -125,9 +121,10 @@ trait _TotpTrait
      */
     public function invalidateBackupCode(string $code): void
     {
-        $key = array_search($code, $this->backupCodes);
+        $key = array_search($code, $this->backupCodes, true);
         if ($key !== false) {
             unset($this->backupCodes[$key]);
+            $this->backupCodes = array_values($this->backupCodes);
         }
     }
 
@@ -136,15 +133,11 @@ trait _TotpTrait
      */
     public function addBackUpCode(string $backUpCode): bool
     {
-        if ($this->backupCodes === null) {
-            $this->backupCodes = [];
-        }
-
         if (count($this->backupCodes) >= $this->getMaxBackupCodes()) {
             return false;
         }
 
-        if (!in_array($backUpCode, $this->backupCodes)) {
+        if (!in_array($backUpCode, $this->backupCodes, true)) {
             $this->backupCodes[] = $backUpCode;
 
             return true;

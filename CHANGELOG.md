@@ -92,3 +92,8 @@
 ## Version 6.5.0
 *Mon, 27 Oct 2025 18:20:53 +0000*
 - Add strict types declaration across multiple files; update composer.json to support newer doctrine versions
+
+
+## Version 6.6.0
+*Sat, 01 Nov 2025 21:49:20 +0000*
+- Breaking Changes: add Rate limiting, CSRF protection, DQL for trusted devices clearing. see documentation for migration steps.

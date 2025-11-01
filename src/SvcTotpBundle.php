@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Svc\TotpBundle;
 
+use Svc\TotpBundle\DependencyInjection\Compiler\RateLimiterValidationPass;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -20,6 +21,13 @@ use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
 class SvcTotpBundle extends AbstractBundle
 {
+    public function build(ContainerBuilder $container): void
+    {
+        parent::build($container);
+
+        $container->addCompilerPass(new RateLimiterValidationPass());
+    }
+
     public function getPath(): string
     {
         return \dirname(__DIR__);
@@ -78,7 +86,7 @@ class SvcTotpBundle extends AbstractBundle
           ->arg(1, $config['enableForgot2FA'])
           ->arg('$fromEmail', $config['fromEmail']);
 
-        if (array_key_exists('loggingClass', $config) and null !== $config['loggingClass']) {
+        if (array_key_exists('loggingClass', $config) && null !== $config['loggingClass']) {
             $builder->setAlias('Svc\TotpBundle\Service\TotpDefaultLogger', $config['loggingClass']);
         }
     }

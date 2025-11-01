@@ -12,8 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-$version = '6.5.0';
-$message = 'Add strict types declaration across multiple files; update composer.json to support newer doctrine versions';
+$version = '6.6.0';
+$message = 'Breaking Changes: add Rate limiting, CSRF protection, DQL for trusted devices clearing. see documentation for migration steps.';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);

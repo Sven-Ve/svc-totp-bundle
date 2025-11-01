@@ -1,0 +1,17 @@
+# Rate limiting configuration for SvcTotpBundle
+#
+# This file is part of the SvcTotp bundle.
+#
+# (c) 2025 Sven Vetter <dev@sv-systems.com>.
+#
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+
+framework:
+    rate_limiter:
+        # Rate limiter for "Forgot 2FA" email requests
+        # Prevents abuse of the forgot 2FA email functionality
+        svc_totp_forgot_2fa:
+            policy: 'sliding_window'
+            limit: 3
+            interval: '15 minutes'

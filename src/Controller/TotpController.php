@@ -207,12 +207,20 @@ class TotpController extends AbstractController
             throw $this->createAccessDeniedException('User not authenticated');
         }
 
-        /* @phpstan-ignore-next-line */
-        foreach ($userRep->findBy(['isTotpAuthenticationEnabled' => true]) as $user) {
-            $user->clearTrustedToken();
-            $this->logger->log('TOTP trusted devices (all) cleared by ' . $currentUser->getUserIdentifier(), TotpLoggerInterface::LOG_TOTP_CLEAR_TD_BY_ADMIN, $user->getId());
-        }
-        $this->entityManager->flush();
+        // Use DQL for batch update - more efficient than loading all users into memory
+        $affectedRows = $this->entityManager->createQueryBuilder()
+            ->update(User::class, 'u')
+            ->set('u.trustedVersion', 'u.trustedVersion + 1')
+            ->where('u.isTotpAuthenticationEnabled = :enabled')
+            ->setParameter('enabled', true)
+            ->getQuery()
+            ->execute();
+
+        $this->logger->log(
+            sprintf('TOTP trusted devices (all) cleared by %s - %d users affected', $currentUser->getUserIdentifier(), $affectedRows),
+            TotpLoggerInterface::LOG_TOTP_CLEAR_TD_BY_ADMIN,
+            $currentUser->getId()
+        );
         $this->addFlash('info', $this->t('All trusted devices have been deleted.'));
 
         return $this->redirectToRoute($this->homePath);

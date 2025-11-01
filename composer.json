@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": "^8.2",
+        "php": "^8.4",
         "doctrine/doctrine-bundle": "^2.10 | ^3",
         "doctrine/orm": "^2.11 | ^3",
         "endroid/qr-code-bundle": "^6",
@@ -21,6 +21,7 @@
         "symfony/framework-bundle": "^7.2",
         "symfony/twig-bundle": "^7.2",
         "symfony/translation": "^7.2",
+        "symfony/rate-limiter": "^7.2",
         "symfonycasts/verify-email-bundle": "^1.10",
         "symfony/mailer": "^7.2"
     },

@@ -23,20 +23,28 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 class TotpForgotController extends AbstractController
 {
-    public function __construct(private readonly string $homePath, private readonly bool $enableForgot2FA, private readonly TotpLogger $logger, private readonly EntityManagerInterface $entityManager, private readonly VerifyEmailHelperInterface $verifyEmailHelper, private readonly TranslatorInterface $translator, private readonly ?string $fromEmail)
-    {
+    public function __construct(
+        private readonly string $homePath,
+        private readonly bool $enableForgot2FA,
+        private readonly TotpLogger $logger,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly VerifyEmailHelperInterface $verifyEmailHelper,
+        private readonly TranslatorInterface $translator,
+        private readonly ?string $fromEmail,
+        private readonly RateLimiterFactory $svcTotpForgot2faLimiter,
+    ) {
     }
 
     /**
      * forget password, reset via mail.
      */
-    #[\Symfony\Component\Security\Http\Attribute\IsCsrfTokenValid('totp-forgot')]
     public function forgetPassword(Request $request, MailerInterface $mailer): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_2FA_IN_PROGRESS');
@@ -54,10 +62,29 @@ class TotpForgotController extends AbstractController
 
         $send = (bool) $request->request->get('send', false);
 
+        // Only validate CSRF token and apply rate limiting when actually sending
+        if ($send) {
+            // CSRF validation
+            $csrfToken = $request->request->get('_csrf_token');
+            if (!$this->isCsrfTokenValid('totp-forgot', is_string($csrfToken) ? $csrfToken : null)) {
+                $this->addFlash('danger', $this->t('Invalid CSRF token. Please try again.'));
+
+                return $this->redirectToRoute($this->homePath);
+            }
+
+            // Rate limiting: Check if user has exceeded the limit for forgot 2FA requests
+            $limiter = $this->svcTotpForgot2faLimiter->create($request->getClientIp());
+            if (!$limiter->consume(1)->isAccepted()) {
+                $this->addFlash('danger', $this->t('Too many requests. Please try again later.'));
+
+                return $this->redirectToRoute($this->homePath);
+            }
+        }
+
         if ($send) {
             $signatureComponents = $this->verifyEmailHelper->generateSignature(
                 'svc_totp_verify_forgot',
-                $user->getId(),
+                (string) $user->getId(),
                 $user->getEmail(),
                 ['id' => $user->getId()]
             );
@@ -113,7 +140,7 @@ class TotpForgotController extends AbstractController
         }
 
         try {
-            $this->verifyEmailHelper->validateEmailConfirmation($request->getUri(), $user->getId(), $user->getEmail());
+            $this->verifyEmailHelper->validateEmailConfirmation($request->getUri(), (string) $user->getId(), $user->getEmail());
         } catch (VerifyEmailExceptionInterface $e) {
             $this->addFlash('danger', $e->getReason());
 

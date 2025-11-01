@@ -22,7 +22,9 @@
     <div class="row">
       <div class="col-auto">
         <figure class="figure">
-          <img src="{{ path('svc_totp_qrcode') }}" alt="2FA QR Code">
+          <img src="{{ path('svc_totp_qrcode') }}"
+               alt="{% trans %}Two-factor authentication QR code for{% endtrans %} {{ app.user.email }}"
+               loading="lazy">
         </figure>
       </div>
       <div class="col">

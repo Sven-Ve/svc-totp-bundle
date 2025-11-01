@@ -58,6 +58,13 @@ class SvcTotpTestingKernel extends Kernel
                         'type' => 'service',
                         'utf8' => true,
                     ],
+                    'rate_limiter' => [
+                        'svc_totp_forgot_2fa' => [
+                            'policy' => 'sliding_window',
+                            'limit' => 3,
+                            'interval' => '15 minutes',
+                        ],
+                    ],
                 ]
             );
 
