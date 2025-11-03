@@ -12,8 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-$version = '6.6.0';
-$message = 'Breaking Changes: add Rate limiting, CSRF protection, DQL for trusted devices clearing. see documentation for migration steps.';
+$version = '6.6.1';
+$message = 'Brearefactor: remove background color from login form in 2FA templates for consistency and dark mode support';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);

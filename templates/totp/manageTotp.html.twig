@@ -5,7 +5,7 @@
 
 {% block body %}
 <div class='form-md'>
-  <div class="login-form bg-light mt-4 p-4">
+  <div class="login-form mt-4 p-4">
     {% if app.user.isTotpAuthenticationEnabled %}
       <div class="alert alert-success" role="alert">{% trans %}2FA is enabled.{% endtrans %}</div>
     {% else %}

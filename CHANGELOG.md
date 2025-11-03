@@ -97,3 +97,8 @@
 ## Version 6.6.0
 *Sat, 01 Nov 2025 21:49:20 +0000*
 - Breaking Changes: add Rate limiting, CSRF protection, DQL for trusted devices clearing. see documentation for migration steps.
+
+
+## Version 6.6.1
+*Mon, 03 Nov 2025 13:33:56 +0000*
+- Brearefactor: remove background color from login form in 2FA templates for consistency and dark mode support
