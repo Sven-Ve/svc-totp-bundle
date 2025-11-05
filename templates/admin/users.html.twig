@@ -6,9 +6,10 @@
 {% endblock %}
 
 {% block body %}
-  <h2>{% trans %}Users{% endtrans %}</h2>
+  <div class="svc-totp-admin-page">
+    <h2>{% trans %}Users{% endtrans %}</h2>
 
-  <div class='table-responsive'>
+    <div class='table-responsive'>
     <table class="table table-sm">
       <thead>
         <tr>
@@ -64,6 +65,7 @@
 
     {% include("@SvcTotp/_gen/_help.html.twig") %}
 
+    </div>
   </div>
 {% endblock %}
 

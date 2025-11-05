@@ -4,9 +4,7 @@
 {% block title %}{% trans %}Save Backup Codes{% endtrans %}{% endblock %}
 
 {% block body %}
-
-<div class='form-md'>
-  <div class="login-form mt-4 p-4">
+<div class="svc-totp-backup-codes-page mt-4 p-4">
     <div class="alert alert-success" role="alert">
       {% trans %}You have successfully activated two-factor authentication for your Account{% endtrans %}.
     </div>
@@ -23,10 +21,9 @@
       </div>
       <div class="col">
         {% trans %}We strongly recommend storing backup codes in safe places like 1Password or LastPass applications{% endtrans %}.<br /><br />
-        {% trans %}Use backup codes for emergency sign in, if you lost or can’t access your Authenticator (each code only once){% endtrans %}.
+        {% trans %}Use backup codes for emergency sign in, if you lost or can't access your Authenticator (each code only once){% endtrans %}.
       </div>
     </div>
 
-  </div>
 </div>
 {% endblock %}

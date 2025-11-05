@@ -160,3 +160,4 @@ The following improvements were implemented based on security audit and code qua
 # 5. Pushes to origin
 php bin/release.php
 ```
+- das commit und das release erfolgt über bin/release.php

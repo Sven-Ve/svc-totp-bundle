@@ -4,9 +4,7 @@
 {% block title %}{% trans %}Forgot/lost 2FA code{% endtrans %}{% endblock %}
 
 {% block body %}
-
-<div class='form-md'>
-  <div class="login-form mt-4 p-4">
+<div class="svc-totp-forgot-page mt-4 p-4">
 
     <h2 class="h3 mb-3 font-weight-normal">{% trans %}Forgot/lost 2FA code{% endtrans %}</h2>
 
@@ -19,6 +17,5 @@
       <input type="hidden" name="send" value="1">
       <button type="submit" class="btn btn-primary">{% trans %}Send email{% endtrans %}</button>
     </form>
-  </div>
 </div>
 {% endblock %}

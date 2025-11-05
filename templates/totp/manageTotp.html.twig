@@ -4,8 +4,7 @@
 {% block title %}{% trans %}Manage 2FA{% endtrans %}{% endblock %}
 
 {% block body %}
-<div class='form-md'>
-  <div class="login-form mt-4 p-4">
+<div class="svc-totp-manage-page mt-4 p-4">
     {% if app.user.isTotpAuthenticationEnabled %}
       <div class="alert alert-success" role="alert">{% trans %}2FA is enabled.{% endtrans %}</div>
     {% else %}
@@ -61,7 +60,6 @@
 
     <br><br>
     {% include("@SvcTotp/_gen/_help.html.twig") %}
-  </div>
 </div>
 {% endblock %}
 

@@ -33,6 +33,7 @@ The following functions are enabled:
 * [Usage](docs/usage.md)
 * [Security Features](docs/security.md)
 * [Logging](docs/logging.md)
+* [Styling and Customization](docs/styling.md)
 
 ## Screenshots
 

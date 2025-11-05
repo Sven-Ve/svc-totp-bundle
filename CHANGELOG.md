@@ -102,3 +102,8 @@
 ## Version 6.6.1
 *Mon, 03 Nov 2025 13:33:56 +0000*
 - Brearefactor: remove background color from login form in 2FA templates for consistency and dark mode support
+
+
+## Version 6.7.0
+*Wed, 05 Nov 2025 15:18:11 +0000*
+- feat: Add unique CSS classes (svc-totp-*) for custom styling and simplify template structure. Remove generic login-form class and unnecessary wrapper divs. Add comprehensive styling documentation.
