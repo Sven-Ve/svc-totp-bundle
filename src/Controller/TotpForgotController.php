@@ -21,6 +21,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
@@ -114,23 +115,25 @@ class TotpForgotController extends AbstractController
     /**
      * verify forget password, reset via mail.
      */
-    public function verifyForgetPassword(Request $request, UserRepository $userRep): Response
-    {
+    public function verifyForgetPassword(
+        #[MapQueryParameter] ?int $id,
+        Request $request,
+        UserRepository $userRep,
+    ): Response {
         if (!$this->enableForgot2FA) {
             $this->addFlash('warning', 'Forgot 2FA function is not enabled.');
 
             return $this->redirectToRoute($this->homePath);
         }
-        $id = $request->get('id');
 
         // Validate that ID is a positive integer
-        if (null === $id || !is_numeric($id) || (int) $id <= 0) {
+        if (null === $id || $id <= 0) {
             $this->addFlash('danger', $this->t('This reset link is invalid. Please request a new one.'));
 
             return $this->redirectToRoute($this->homePath);
         }
 
-        $user = $userRep->find((int) $id);
+        $user = $userRep->find($id);
 
         // Ensure the user exists in persistence
         if (null === $user) {

@@ -147,6 +147,66 @@ The following improvements were implemented based on security audit and code qua
 - **Static Analysis**: Code must pass `composer phpstan` (level 7 analysis). PHPStan ignores App\ namespace and _TotpTrait.php. When adding array type hints, use PHPDoc format: `@return array<type>`, `@param array<key, value>`.
 - **Code Formatting**: Code must pass `/opt/homebrew/bin/php-cs-fixer fix --dry-run --diff`. Uses Symfony + PSR12 rules with license header comments.
 - **Test Coverage**: New features require comprehensive unit and integration tests. Add `declare(strict_types=1);` to all test files.
+- **Request Parameter Handling** (Symfony 7.4+): The `$request->get()` method is deprecated in Symfony 7.4 and will be removed in Symfony 8.0. Use specific methods or attributes instead:
+
+  **Option 1: Direct Property Access** (for simple cases)
+  ```php
+  // For route placeholders and custom attributes
+  $value = $request->attributes->get('some_key');
+
+  // For GET query parameters
+  $value = $request->query->get('some_key');
+
+  // For POST-submitted data
+  $value = $request->request->get('some_key');
+  ```
+
+  **Option 2: MapQueryParameter Attribute** (recommended for GET parameters)
+  ```php
+  use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
+
+  public function myAction(
+      #[MapQueryParameter] ?int $id,
+      #[MapQueryParameter] ?string $search,
+      Request $request,
+  ): Response {
+      // $id and $search are automatically extracted and typed from query string
+  }
+
+  // With validation filters
+  public function filtered(
+      #[MapQueryParameter(filter: \FILTER_VALIDATE_INT)] ?int $page,
+      #[MapQueryParameter(filter: \FILTER_VALIDATE_REGEXP, options: ['regexp' => '/^\w+$/'])] ?string $slug,
+  ): Response {
+      // Parameters are validated and typed
+  }
+  ```
+  Supported types: `\BackedEnum`, `array`, `bool`, `float`, `int`, `string`, and objects extending `AbstractUid`.
+
+  **Option 3: MapRequestPayload Attribute** (for POST/JSON data with DTOs)
+  ```php
+  use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
+
+  public function create(
+      #[MapRequestPayload] UserDto $userData,
+  ): Response {
+      // $userData is automatically deserialized from JSON request body
+      // and validated (returns 422 on validation errors)
+  }
+
+  // With custom options
+  public function update(
+      #[MapRequestPayload(
+          acceptFormat: 'json',
+          validationGroups: ['Default', 'update'],
+          validationFailedStatusCode: 400,
+      )] UserDto $userData,
+  ): Response {
+      // Customized deserialization and validation
+  }
+  ```
+  Error responses: 400 (malformed data), 415 (unsupported format), 422 (validation failed).
+
 - **Release Process**: CHANGELOG.md is automatically updated via `bin/release.php` - edit that file for changelog entries
 - **Documentation**: Update relevant docs in `docs/` folder when adding features or breaking changes
 

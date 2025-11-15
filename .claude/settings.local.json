@@ -8,7 +8,8 @@
       "WebSearch",
       "Bash(/opt/homebrew/bin/php-cs-fixer fix)",
       "Bash(vendor/bin/phpstan analyse:*)",
-      "Bash(/opt/homebrew/bin/php-cs-fixer fix:*)"
+      "Bash(/opt/homebrew/bin/php-cs-fixer fix:*)",
+      "WebFetch(domain:medium.com)"
     ],
     "deny": [],
     "ask": []

@@ -107,3 +107,8 @@
 ## Version 6.7.0
 *Wed, 05 Nov 2025 15:18:11 +0000*
 - feat: Add unique CSS classes (svc-totp-*) for custom styling and simplify template structure. Remove generic login-form class and unnecessary wrapper divs. Add comprehensive styling documentation.
+
+
+## Version 6.8.0
+*Sat, 15 Nov 2025 09:54:48 +0000*
+- feat: Symfony 7.4 compatibility - Replace deprecated $request->get() with #[MapQueryParameter] attribute and add comprehensive request handling documentation to CLAUDE.md

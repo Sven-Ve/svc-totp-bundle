@@ -12,8 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-$version = '6.7.0';
-$message = 'feat: Add unique CSS classes (svc-totp-*) for custom styling and simplify template structure. Remove generic login-form class and unnecessary wrapper divs. Add comprehensive styling documentation.';
+$version = '6.8.0';
+$message = 'feat: Symfony 7.4 compatibility - Replace deprecated $request->get() with #[MapQueryParameter] attribute and add comprehensive request handling documentation to CLAUDE.md';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);
