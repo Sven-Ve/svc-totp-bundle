@@ -112,3 +112,8 @@
 ## Version 6.8.0
 *Sat, 15 Nov 2025 09:54:48 +0000*
 - feat: Symfony 7.4 compatibility - Replace deprecated $request->get() with #[MapQueryParameter] attribute and add comprehensive request handling documentation to CLAUDE.md
+
+
+## Version 6.8.1
+*Wed, 26 Nov 2025 20:41:02 +0000*
+- fix: Replace #[IsCsrfTokenValid] attribute with manual validation to work around Symfony bug #57343, update flash messages level to new states in SvcUtilBundle

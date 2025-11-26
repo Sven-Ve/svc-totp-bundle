@@ -68,7 +68,7 @@ class TotpForgotController extends AbstractController
             // CSRF validation
             $csrfToken = $request->request->get('_csrf_token');
             if (!$this->isCsrfTokenValid('totp-forgot', is_string($csrfToken) ? $csrfToken : null)) {
-                $this->addFlash('danger', $this->t('Invalid CSRF token. Please try again.'));
+                $this->addFlash('error', $this->t('Invalid CSRF token. Please try again.'));
 
                 return $this->redirectToRoute($this->homePath);
             }
@@ -76,7 +76,7 @@ class TotpForgotController extends AbstractController
             // Rate limiting: Check if user has exceeded the limit for forgot 2FA requests
             $limiter = $this->svcTotpForgot2faLimiter->create($request->getClientIp());
             if (!$limiter->consume(1)->isAccepted()) {
-                $this->addFlash('danger', $this->t('Too many requests. Please try again later.'));
+                $this->addFlash('error', $this->t('Too many requests. Please try again later.'));
 
                 return $this->redirectToRoute($this->homePath);
             }
@@ -128,7 +128,7 @@ class TotpForgotController extends AbstractController
 
         // Validate that ID is a positive integer
         if (null === $id || $id <= 0) {
-            $this->addFlash('danger', $this->t('This reset link is invalid. Please request a new one.'));
+            $this->addFlash('error', $this->t('This reset link is invalid. Please request a new one.'));
 
             return $this->redirectToRoute($this->homePath);
         }
@@ -137,15 +137,16 @@ class TotpForgotController extends AbstractController
 
         // Ensure the user exists in persistence
         if (null === $user) {
-            $this->addFlash('danger', $this->t('This reset link is invalid or has expired.'));
+            $this->addFlash('error', $this->t('This reset link is invalid or has expired.'));
 
             return $this->redirectToRoute($this->homePath);
         }
 
         try {
-            $this->verifyEmailHelper->validateEmailConfirmation($request->getUri(), (string) $user->getId(), $user->getEmail());
+            $this->verifyEmailHelper->validateEmailConfirmationFromRequest($request, (string) $user->getId(), $user->getEmail());
+
         } catch (VerifyEmailExceptionInterface $e) {
-            $this->addFlash('danger', $e->getReason());
+            $this->addFlash('error', $e->getReason());
 
             return $this->redirectToRoute($this->homePath);
         }
@@ -154,6 +155,7 @@ class TotpForgotController extends AbstractController
         $user->disableTotpAuthentication();
         $this->entityManager->flush();
         $this->logger->log('TOTP disabled by forget function', TotpLoggerInterface::LOG_TOTP_RESET, $user->getId());
+        $this->addFlash('success', $this->t('2FA is disabled'));
 
         return $this->redirectToRoute('app_logout');
     }

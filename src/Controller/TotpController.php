@@ -100,10 +100,18 @@ class TotpController extends AbstractController
     /**
      * enable the qr code.
      */
-    #[\Symfony\Component\Security\Http\Attribute\IsCsrfTokenValid('totp-enable')]
-    public function enableTotp(SessionInterface $session): Response
+    public function enableTotp(SessionInterface $session, Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        // Manual CSRF validation - workaround for Symfony bug #57343
+        // The #[IsCsrfTokenValid] attribute throws InvalidCsrfTokenException which extends
+        // AuthenticationException, causing redirect to login instead of proper error handling
+        if (!$this->isCsrfTokenValid('totp-enable', $request->request->getString('_csrf_token'))) {
+            $this->addFlash('error', $this->t('Invalid CSRF token. Please try again.'));
+
+            return $this->redirectToRoute('svc_totp_manage');
+        }
         $user = $this->getUser();
         if (!$user instanceof User) {
             throw $this->createAccessDeniedException('User not authenticated');
@@ -124,10 +132,16 @@ class TotpController extends AbstractController
     /**
      * disable/reset 2fa  for the current user.
      */
-    #[\Symfony\Component\Security\Http\Attribute\IsCsrfTokenValid('totp-disable')]
     public function disableTotp(Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        // Manual CSRF validation - workaround for Symfony bug #57343
+        if (!$this->isCsrfTokenValid('totp-disable', $request->request->getString('_csrf_token'))) {
+            $this->addFlash('error', $this->t('Invalid CSRF token. Please try again.'));
+
+            return $this->redirectToRoute('svc_totp_manage');
+        }
 
         $reset = (bool) $request->request->get('reset');
         $user = $this->getUser();
@@ -151,10 +165,16 @@ class TotpController extends AbstractController
     /**
      * disable/reset  2fa for another user.
      */
-    #[\Symfony\Component\Security\Http\Attribute\IsCsrfTokenValid('totp-admin-disable')]
     public function disableOtherTotp(User $user, Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        // Manual CSRF validation - workaround for Symfony bug #57343
+        if (!$this->isCsrfTokenValid('totp-admin-disable', $request->request->getString('_csrf_token'))) {
+            $this->addFlash('error', $this->t('Invalid CSRF token. Please try again.'));
+
+            return $this->redirectToRoute($this->homePath);
+        }
 
         $currentUser = $this->getUser();
         if (!$currentUser instanceof User) {
@@ -181,9 +201,15 @@ class TotpController extends AbstractController
     /**
      * clear trusted device for current or all users.
      */
-    #[\Symfony\Component\Security\Http\Attribute\IsCsrfTokenValid('totp-clear-trusted')]
     public function clearTrustedDevice(UserRepository $userRep, Request $request): Response
     {
+        // Manual CSRF validation - workaround for Symfony bug #57343
+        if (!$this->isCsrfTokenValid('totp-clear-trusted', $request->request->getString('_csrf_token'))) {
+            $this->addFlash('error', $this->t('Invalid CSRF token. Please try again.'));
+
+            return $this->redirectToRoute('svc_totp_manage');
+        }
+
         $allUsers = (bool) $request->request->get('allUsers');
 
         if (!$allUsers) {
@@ -230,10 +256,16 @@ class TotpController extends AbstractController
     /**
      * clear trusted device for other users.
      */
-    #[\Symfony\Component\Security\Http\Attribute\IsCsrfTokenValid('totp-admin-clear-trusted')]
-    public function clearOtherTrustedDevice(User $user): Response
+    public function clearOtherTrustedDevice(User $user, Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        // Manual CSRF validation - workaround for Symfony bug #57343
+        if (!$this->isCsrfTokenValid('totp-admin-clear-trusted', $request->request->getString('_csrf_token'))) {
+            $this->addFlash('error', $this->t('Invalid CSRF token. Please try again.'));
+
+            return $this->redirectToRoute($this->homePath);
+        }
 
         $currentUser = $this->getUser();
         if (!$currentUser instanceof User) {

@@ -107,7 +107,7 @@ Services are configured in `config/services.php` and routes in `config/routes.ph
 The following improvements were implemented based on security audit and code quality review:
 
 **Security Enhancements:**
-- **CSRF Protection** (#1): All state-changing operations (enable/disable 2FA, clear trusted devices, forgot 2FA) now require valid CSRF tokens. Most controllers use Symfony's `#[IsCsrfTokenValid()]` attribute. The Forgot 2FA controller uses manual validation (via `isCsrfTokenValid()`) because the route accepts both GET (show form) and POST (submit form) methods, and the attribute would fail on GET requests where no token exists yet.
+- **CSRF Protection** (#1): All state-changing operations (enable/disable 2FA, clear trusted devices, forgot 2FA) now require valid CSRF tokens. All controllers use **manual validation** (via `isCsrfTokenValid()`) instead of the `#[IsCsrfTokenValid()]` attribute due to Symfony bug #57343 where the attribute causes redirects to login page instead of proper error handling. Manual validation provides better UX with flash messages.
 - **Input Validation** (#11): User ID validation in forgot 2FA verification now checks for numeric positive integers to prevent type errors and invalid requests.
 - **HTTP Method Restrictions** (2025-01-11): All routes now have explicit HTTP method restrictions. State-changing routes require POST, read-only routes use GET.
 - **Rate Limiting** (2025-01-11): Forgot 2FA functionality now includes built-in rate limiting (3 requests per 15 minutes per IP) using Symfony's RateLimiter component, preventing abuse of the email functionality. **Requires manual configuration** in the host application's `config/packages/framework.yaml`. A compiler pass validates the configuration at compile-time and provides detailed error messages with configuration examples if missing.
@@ -132,6 +132,7 @@ The following improvements were implemented based on security audit and code qua
 **Code Quality:**
 - **Array Reindexing** (2025-01-11): `invalidateBackupCode()` now properly reindexes the array after removing a code, preventing gaps in array keys.
 - **Constructor Formatting** (2025-01-11): Multi-line constructor parameters with trailing commas for better readability, following PHP 8.4 best practices.
+- **CSRF Validation Workaround** (2025-01-26): Replaced `#[IsCsrfTokenValid]` attribute with manual validation using `isCsrfTokenValid()` and `$request->request->getString()` to work around Symfony bug #57343. The attribute throws `InvalidCsrfTokenException` (extends `AuthenticationException`) causing redirects to login page. Manual validation provides better error handling with flash messages. Affected methods: `enableTotp()`, `disableTotp()`, `disableOtherTotp()`, `clearTrustedDevice()`, `clearOtherTrustedDevice()`.
 
 ### Known Limitations (Intentionally Not Fixed)
 - **Backup Code Generation Loop** (#7): The `generateBackCodes()` method in `TotpController` theoretically has an infinite loop risk if `random_int()` continuously generates duplicate 6-digit codes. However, the probability is extremely low (~0.0000001%) with 900,000 possible codes and only 10 required. The risk/reward ratio does not justify adding complexity for this edge case. This would only become an issue if someone reduces the code length to 3-4 digits or dramatically increases the number of backup codes required.
@@ -221,3 +222,4 @@ The following improvements were implemented based on security audit and code qua
 php bin/release.php
 ```
 - das commit und das release erfolgt über bin/release.php
+- changelog.md wird nur über das releasescript bin/release.php aktualisiert. bitte dort einen commit text eintragen, dieser wird auch in changelog.md übernommen

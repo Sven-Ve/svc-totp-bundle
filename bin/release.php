@@ -12,8 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-$version = '6.8.0';
-$message = 'feat: Symfony 7.4 compatibility - Replace deprecated $request->get() with #[MapQueryParameter] attribute and add comprehensive request handling documentation to CLAUDE.md';
+$version = '6.8.1';
+$message = 'fix: Replace #[IsCsrfTokenValid] attribute with manual validation to work around Symfony bug #57343, update flash messages level to new states in SvcUtilBundle';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);
