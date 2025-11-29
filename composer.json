@@ -18,12 +18,12 @@
         "scheb/2fa-bundle": "^7.10",
         "scheb/2fa-totp": "^7.10",
         "scheb/2fa-trusted-device": "^7.10",
-        "symfony/framework-bundle": "^7.2",
-        "symfony/twig-bundle": "^7.2",
-        "symfony/translation": "^7.2",
-        "symfony/rate-limiter": "^7.2",
+        "symfony/framework-bundle": "^7.2 | ^8",
+        "symfony/twig-bundle": "^7.2 | ^8",
+        "symfony/translation": "^7.2 | ^8",
+        "symfony/rate-limiter": "^7.2 | ^8",
         "symfonycasts/verify-email-bundle": "^1.10",
-        "symfony/mailer": "^7.2"
+        "symfony/mailer": "^7.2 | ^8"
     },
     "autoload": {
         "psr-4": {

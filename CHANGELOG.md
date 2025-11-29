@@ -117,3 +117,8 @@
 ## Version 6.8.1
 *Wed, 26 Nov 2025 20:41:02 +0000*
 - fix: Replace #[IsCsrfTokenValid] attribute with manual validation to work around Symfony bug #57343, update flash messages level to new states in SvcUtilBundle
+
+
+## Version 6.9.0
+*Sat, 29 Nov 2025 16:57:42 +0000*
+- tested with symfony 7.4 and symfony 8.
