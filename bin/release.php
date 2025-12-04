@@ -12,8 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-$version = '6.9.0';
-$message = 'tested with symfony 7.4 and symfony 8.';
+$version = '6.10.0';
+$message = 'tested and compatible with scheb/2fa-bundle';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);

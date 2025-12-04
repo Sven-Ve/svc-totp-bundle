@@ -122,3 +122,8 @@
 ## Version 6.9.0
 *Sat, 29 Nov 2025 16:57:42 +0000*
 - tested with symfony 7.4 and symfony 8.
+
+
+## Version 6.10.0
+*Thu, 04 Dec 2025 18:10:00 +0000*
+- tested and compatible with scheb/2fa-bundle
