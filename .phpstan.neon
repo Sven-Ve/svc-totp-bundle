@@ -6,7 +6,6 @@ parameters:
     - src/
 #   - tests/
   ignoreErrors:
-    - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition.*#'
     - '#Call to method .*\(\) on an unknown class App\\Entity\\User#'
     - '#Call to method find.*\(\) on an unknown class App\\Repository\\UserRepository.#'
     - '#Parameter \$user of method Svc\\TotpBundle\\.*\(\) has invalid type App\\Entity\\User#'

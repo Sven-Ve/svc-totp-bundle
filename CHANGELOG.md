@@ -127,3 +127,8 @@
 ## Version 6.10.0
 *Thu, 04 Dec 2025 18:10:00 +0000*
 - tested and compatible with scheb/2fa-bundle
+
+
+## Version 6.11.0
+*Sun, 25 Jan 2026 10:21:09 +0000*
+- feat: Enhance CI workflow with security audit and static analysis, update copyright year to 2026, and refine CLAUDE.md instructions

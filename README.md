@@ -5,6 +5,9 @@
 [![License](https://poser.pugx.org/svc/totp-bundle/license)](https://packagist.org/packages/svc/totp-bundle) 
 [![Total Downloads](https://poser.pugx.org/svc/totp-bundle/downloads)](https://packagist.org/packages/svc/totp-bundle)
 [![PHP Version Require](http://poser.pugx.org/svc/totp-bundle/require/php)](https://packagist.org/packages/svc/totp-bundle)
+[![Symfony](https://img.shields.io/badge/symfony-7.2%2B%20%7C%208-green)](https://symfony.com/)
+![Last commit](https://img.shields.io/github/last-commit/Sven-Ve/svc-totp-bundle)"
+
 
 :warning: **Version Compatibility:** <br/>
 - **Version 6.x** (current): Requires Symfony 7.2+, PHP 8.4+

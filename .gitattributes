@@ -1,0 +1,10 @@
+/.claude export-ignore
+/.git* export-ignore
+/.php-cs-fixer.php export-ignore
+/.phpstan.neon export-ignore
+/bin export-ignore
+/CLAUDE.md export-ignore
+/docs export-ignore
+/MIGRATION*.md export-ignore
+/phpunit.xml.dist export-ignore
+/tests export-ignore

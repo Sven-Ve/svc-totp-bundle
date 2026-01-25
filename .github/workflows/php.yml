@@ -38,3 +38,6 @@ jobs:
       
     - name: Run static code analysis (phpstan)
       run: composer run-script phpstan  
+
+    - name: Run audit (security check)
+      run: composer audit

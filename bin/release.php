@@ -6,14 +6,14 @@ declare(strict_types=1);
 /*
  * This file is part of the SvcTotp bundle.
  *
- * (c) 2025 Sven Vetter <dev@sv-systems.com>.
+ * (c) 2026 Sven Vetter <dev@sv-systems.com>.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-$version = '6.10.0';
-$message = 'tested and compatible with scheb/2fa-bundle';
+$version = '6.11.0';
+$message = 'feat: Enhance CI workflow with security audit and static analysis, update copyright year to 2026, and refine CLAUDE.md instructions';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);
@@ -27,6 +27,14 @@ echo "Running tests:\n";
 system('composer run-script test', $res);
 if ($res > 0) {
     echo "\nError during execution test scripts. Releasing cannceled.\n";
+
+    return 1;
+}
+
+echo "Running audit:\n";
+system('composer audit', $res);
+if ($res > 0) {
+    echo "\nError during execution audit. Releasing cannceled.\n";
 
     return 1;
 }
