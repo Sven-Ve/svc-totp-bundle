@@ -12,7 +12,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-$version = '6.11.0';
+$version = '6.12.0';
 $message = 'Update endroid/qr-code-bundle to version 7';
 
 echo "Running phpstan:\n";

@@ -137,3 +137,8 @@
 ## Version 6.11.0
 *Sat, 25 Apr 2026 18:00:26 +0000*
 - Update endroid/qr-code-bundle to version 7
+
+
+## Version 6.12.0
+*Sat, 25 Apr 2026 18:01:39 +0000*
+- Update endroid/qr-code-bundle to version 7
