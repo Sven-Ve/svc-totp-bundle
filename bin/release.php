@@ -13,7 +13,7 @@ declare(strict_types=1);
  */
 
 $version = '6.11.0';
-$message = 'feat: Enhance CI workflow with security audit and static analysis, update copyright year to 2026, and refine CLAUDE.md instructions';
+$message = 'Update endroid/qr-code-bundle to version 7';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);

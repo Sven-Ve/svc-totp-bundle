@@ -132,3 +132,8 @@
 ## Version 6.11.0
 *Sun, 25 Jan 2026 10:21:09 +0000*
 - feat: Enhance CI workflow with security audit and static analysis, update copyright year to 2026, and refine CLAUDE.md instructions
+
+
+## Version 6.11.0
+*Sat, 25 Apr 2026 18:00:26 +0000*
+- Update endroid/qr-code-bundle to version 7

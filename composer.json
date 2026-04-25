@@ -13,13 +13,14 @@
         "php": "^8.4",
         "doctrine/doctrine-bundle": "^2.10 | ^3",
         "doctrine/orm": "^2.11 | ^3",
-        "endroid/qr-code-bundle": "^6",
+        "endroid/qr-code-bundle": "^7",
         "scheb/2fa-backup-code": "^7.10 | ^8",
         "scheb/2fa-bundle": "^7.10 | ^8",
         "scheb/2fa-totp": "^7.10 | ^8",
         "scheb/2fa-trusted-device": "^7.10 | ^8",
         "symfony/framework-bundle": "^7.2 | ^8",
         "symfony/twig-bundle": "^7.2 | ^8",
+        "symfony/yaml": "^7.2 | ^8",
         "symfony/translation": "^7.2 | ^8",
         "symfony/rate-limiter": "^7.2 | ^8",
         "symfonycasts/verify-email-bundle": "^1.10",
@@ -37,10 +38,10 @@
     },
     "require-dev": {
         "phpstan/phpstan": "^2.1",
-        "phpunit/phpunit": "^12.3"
+        "phpunit/phpunit": "^13"
     },
     "scripts": {
-        "test": "vendor/bin/phpunit --testdox",
+        "test": "php -d memory_limit=-1 vendor/bin/phpunit --testdox",
         "phpstan": "vendor/bin/phpstan analyse -c .phpstan.neon"
     },
     "config": {

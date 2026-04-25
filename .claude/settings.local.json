@@ -9,7 +9,8 @@
       "Bash(/opt/homebrew/bin/php-cs-fixer fix)",
       "Bash(vendor/bin/phpstan analyse:*)",
       "Bash(/opt/homebrew/bin/php-cs-fixer fix:*)",
-      "WebFetch(domain:medium.com)"
+      "WebFetch(domain:medium.com)",
+      "WebFetch(domain:docs.phpunit.de)"
     ],
     "deny": [],
     "ask": []
