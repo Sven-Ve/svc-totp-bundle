@@ -17,7 +17,7 @@ use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
-class TotpAdminController extends AbstractController
+final class TotpAdminController extends AbstractController
 {
     public function index(UserRepository $userRep): Response
     {

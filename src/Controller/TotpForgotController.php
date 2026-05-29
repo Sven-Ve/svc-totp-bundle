@@ -29,7 +29,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
-class TotpForgotController extends AbstractController
+final class TotpForgotController extends AbstractController
 {
     public function __construct(
         private readonly string $homePath,

@@ -12,8 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-$version = '6.12.1';
-$message = 'Update documentation for endroid/qr-code-bundle';
+$version = '6.12.2';
+$message = 'add #[Target] attribute to TotpController to fix Symfony 8.1 deprecation';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);

@@ -147,3 +147,8 @@
 ## Version 6.12.1
 *Sat, 25 Apr 2026 18:17:23 +0000*
 - Update documentation for endroid/qr-code-bundle
+
+
+## Version 6.12.2
+*Fri, 29 May 2026 14:16:57 +0000*
+- add #[Target] attribute to TotpController to fix Symfony 8.1 deprecation

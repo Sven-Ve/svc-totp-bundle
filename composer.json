@@ -42,7 +42,7 @@
     },
     "scripts": {
         "test": "php -d memory_limit=-1 vendor/bin/phpunit --testdox",
-        "phpstan": "vendor/bin/phpstan analyse -c .phpstan.neon"
+        "phpstan": "php -d memory_limit=-1 vendor/bin/phpstan analyse -c .phpstan.neon"
     },
     "config": {
         "allow-plugins": {

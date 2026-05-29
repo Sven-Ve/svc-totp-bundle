@@ -17,6 +17,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Endroid\QrCode\Builder\BuilderInterface;
+use Symfony\Component\DependencyInjection\Attribute\Target;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInterface;
 use Svc\TotpBundle\Service\TotpLogger;
 use Svc\TotpBundle\Service\TotpLoggerInterface;
@@ -26,7 +27,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class TotpController extends AbstractController
+final class TotpController extends AbstractController
 {
     public function __construct(
         private readonly string $homePath,
@@ -34,6 +35,7 @@ class TotpController extends AbstractController
         private readonly TotpLogger $logger,
         private readonly EntityManagerInterface $entityManager,
         private readonly TranslatorInterface $translator,
+        #[Target('defaultQrCodeBuilder')]
         private BuilderInterface $defaultQrCodeBuilder,
     ) {
     }
